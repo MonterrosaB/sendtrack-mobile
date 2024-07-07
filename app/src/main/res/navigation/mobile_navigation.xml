@@ -22,4 +22,9 @@
         android:name="ptc24.st.sendtrack.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/fragmentMovimientos"
+        android:name="ptc24.st.sendtrack.fragmentMovimientos"
+        android:label="fragment_movimientos"
+        tools:layout="@layout/fragment_movimientos" />
 </navigation>
