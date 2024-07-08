@@ -4,11 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context=".fragmentMovimientos">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:overScrollMode="ifContentScrolls"
+        android:persistentDrawingCache="scrolling"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:verticalScrollbarPosition="right">
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtConfirmPasswordR"
@@ -16,18 +23,20 @@
             android:layout_width="288dp"
             android:layout_height="51dp"
             android:hint="Confirmar codigo de cargamento"
+            android:isScrollContainer="true"
+            android:scrollbars="horizontal"
             app:boxCornerRadiusBottomEnd="40dp"
+
+
             app:boxCornerRadiusBottomStart="40dp"
             app:boxCornerRadiusTopEnd="40dp"
             app:boxCornerRadiusTopStart="40dp"
-
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.162"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.883">
+            app:layout_constraintVertical_bias="0.829">
 
             <EditText
                 android:id="@+id/editTextNumber3"
@@ -40,13 +49,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="359dp"
-            android:layout_height="559dp"
+            android:layout_width="369dp"
+            android:layout_height="331dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.093" />
+            app:layout_constraintVertical_bias="0.391" />
 
         <TextView
             android:id="@+id/textView5"
@@ -57,10 +66,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.159"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.817" />
+            app:layout_constraintVertical_bias="0.748" />
 
         <Button
             android:id="@+id/button"
@@ -74,7 +83,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.976" />
+            app:layout_constraintVertical_bias="0.92" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="408dp"
+            android:layout_height="78dp"
+            android:src="@drawable/header"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

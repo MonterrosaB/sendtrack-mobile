@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SendTrack"
         tools:targetApi="31">
         <activity
+            android:name=".cardPaquetes"
+            android:exported="false" />
+        <activity
             android:name=".card_Movimientos"
             android:exported="false" />
         <activity
