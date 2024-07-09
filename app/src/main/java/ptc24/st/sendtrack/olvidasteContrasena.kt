@@ -55,6 +55,7 @@ class olvidasteContrasena : AppCompatActivity() {
 
             if(!hayErrores){
                 CoroutineScope(Dispatchers.Main).launch {
+                    
                     enviarCorreo(txtCorreoolvide.text.toString(),"Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
                     val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)
                     startActivity(intent)
