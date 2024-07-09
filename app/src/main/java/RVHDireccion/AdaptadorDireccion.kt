@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ptc24.st.sendtrack.R
 
 class AdaptadorDireccion(var Datos: List<dtDireccion>):RecyclerView.Adapter<ViewHolderDireccion>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDireccion {
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.fragment_user_enviar_paquete, parent, false)
+        val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_direccion, parent, false)
         return ViewHolderDireccion(vista)
     }
 
@@ -18,6 +19,12 @@ class AdaptadorDireccion(var Datos: List<dtDireccion>):RecyclerView.Adapter<View
         val item = Datos[position]
         holder.lbNombreCompleto.text = item.nombre
         holder.lbDireccion.text = item.direccion
+        holder.itemView.setOnClickListener{
+
+           // holder.cardDireccion.strokeColor(res.color(R.color.yellow))
+
+
+        }
 
     }
 

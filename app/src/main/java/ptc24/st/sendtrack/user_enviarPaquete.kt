@@ -48,7 +48,7 @@ private val binding get() = _binding!!
         val largoP = binding.txtEditLargo
         val anchoP =binding.txtEditAncho
         var contenido: Int
-        val user = "35CAEDC742FA4AF79C7548A3DD3942E3"
+        val user = "779E90DAE07D448B8C9DDB0F5A4A63F7"
         val rcvDireccion = root.findViewById<RecyclerView>(R.id.rcvDireccion)
 
         //Accionadores
