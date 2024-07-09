@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_user"
+    app:startDestination="@id/fragmentMovimientos">
+
+    <fragment
+        android:id="@+id/fragmentMovimientos"
+        android:name="ptc24.st.sendtrack.fragmentMovimientos"
+        android:label="fragment_movimientos"
+        tools:layout="@layout/fragment_movimientos" />
+</navigation>

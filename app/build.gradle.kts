@@ -4,8 +4,14 @@ plugins {
 }
 
 android {
+
+
     namespace = "ptc24.st.sendtrack"
     compileSdk = 34
+
+    viewBinding {
+        enable = true
+    }
 
     defaultConfig {
         applicationId = "ptc24.st.sendtrack"

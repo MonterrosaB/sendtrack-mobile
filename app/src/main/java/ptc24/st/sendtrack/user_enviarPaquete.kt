@@ -81,7 +81,7 @@ private val binding get() = _binding!!
 
         CoroutineScope(Dispatchers.IO).launch {
             val direccionesDB = mostrarDirecciones()
-            withContext(Dispatchers .Main){
+            withContext(Dispatchers.Main){
                 val adapter = AdaptadorDireccion(direccionesDB)
                 rcvDireccion.adapter = adapter
             }

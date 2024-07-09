@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number"
-                android:textColor="@color/blueptc"
+                android:textColor="@color/blue"
                 android:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
