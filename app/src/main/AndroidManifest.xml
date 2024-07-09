@@ -15,28 +15,20 @@
         android:theme="@style/Theme.SendTrack"
         tools:targetApi="31">
         <activity
-            android:name=".user_mapa_direccion"
-            android:exported="true">
-
+            android:name=".cardPaquetes"
+            android:exported="false" />
+        <activity
+            android:name=".card_Movimientos"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-        <activity
-            android:name=".item_direccion"
-            android:exported="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name">
         </activity>
     </application>
 
