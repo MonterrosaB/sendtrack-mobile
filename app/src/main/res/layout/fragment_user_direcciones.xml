@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".user_enviarPaquete"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direcciones"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-black"
+            android:textSize="25dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="50dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputCalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Nombre de la calle"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditCalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputDistrito"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Distrito"
+                app:boxCornerRadiusTopStart="45dp"
+                app:boxCornerRadiusTopEnd="45dp"
+                app:boxCornerRadiusBottomStart="45dp"
+                app:boxCornerRadiusBottomEnd="45dp"
+                android:layout_weight="1"
+                app:boxBackgroundColor="@color/yellow"
+                android:textColorHint="@color/blue"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidth="0dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditDistrito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputMunicipio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Municipio"
+                app:boxCornerRadiusTopStart="45dp"
+                app:boxCornerRadiusTopEnd="45dp"
+                app:boxCornerRadiusBottomStart="45dp"
+                app:boxCornerRadiusBottomEnd="45dp"
+                android:layout_weight="1"
+                app:boxBackgroundColor="@color/yellow"
+                android:textColorHint="@color/blue"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidth="0dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditMunicipio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputCodigoPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Codigo Postal"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditCodigoPostal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputInstrucciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Instrucciones de entrega"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditInstrucciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerificarD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Verificar Dirección" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAgregarD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Agregar Dirección"/>
+    </LinearLayout>
+
+</LinearLayout>

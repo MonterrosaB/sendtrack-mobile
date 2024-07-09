@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".user_enviarPaquete"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@drawable/header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enviar un Paquete"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-black"
+            android:textSize="25dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="50dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Información del paquete"
+            android:textColor="#0F2D57"
+            android:fontFamily="sans-serif-black"
+            android:textSize="20dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="25dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputPeso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Peso del paquete()"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditPeso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLargo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Largo"
+                app:boxCornerRadiusTopStart="45dp"
+                app:boxCornerRadiusTopEnd="45dp"
+                app:boxCornerRadiusBottomStart="45dp"
+                app:boxCornerRadiusBottomEnd="45dp"
+                app:boxBackgroundColor="@color/yellow"
+                android:textColorHint="@color/blue"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidth="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditLargo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputAncho"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Ancho"
+                app:boxCornerRadiusTopStart="45dp"
+                app:boxCornerRadiusTopEnd="45dp"
+                app:boxCornerRadiusBottomStart="45dp"
+                app:boxCornerRadiusBottomEnd="45dp"
+                app:boxBackgroundColor="@color/yellow"
+                android:textColorHint="@color/blue"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidth="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditAncho"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInpuAlto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".33"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="Alto"
+                app:boxCornerRadiusTopStart="45dp"
+                app:boxCornerRadiusTopEnd="45dp"
+                app:boxCornerRadiusBottomStart="45dp"
+                app:boxCornerRadiusBottomEnd="45dp"
+                app:boxBackgroundColor="@color/yellow"
+                android:textColorHint="@color/blue"
+                app:hintTextColor="@color/blue"
+                app:boxStrokeWidth="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditAlto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputContenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            android:layout_marginTop="15dp"
+            android:hint="Contenido"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/cbContenido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputCodigoPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Código postal"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditCodigoPostal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swiSeguro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:checked="true"
+            android:fontFamily="sans-serif-medium"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:text="Seguro de paquete"
+            android:textColor="@color/blue"
+            android:textSize="18dp"
+            app:thumbTint="@color/blue"
+            app:useMaterialThemeColors="false" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.8">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAgregarPaquete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Paquete"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/blue"/>
+    </LinearLayout>
+</LinearLayout>

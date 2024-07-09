@@ -3,23 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
-
+    app:startDestination="@+id/user_enviarPaquete">
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="ptc24.st.sendtrack.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
+        android:id="@+id/user_enviarPaquete"
+        android:name="ptc24.st.sendtrack.user_enviarPaquete"
+        android:label="fragment_user_enviar_paquete"
+        tools:layout="@layout/fragment_user_enviar_paquete" />
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="ptc24.st.sendtrack.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="ptc24.st.sendtrack.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/user_direcciones"
+        android:name="ptc24.st.sendtrack.user_direcciones"
+        android:label="fragment_user_direcciones"
+        tools:layout="@layout/fragment_user_direcciones" />
 </navigation>
