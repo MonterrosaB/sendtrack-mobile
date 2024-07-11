@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Registro"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:text="Crea una cuenta"
+        android:fontFamily="sans-serif-black"
+        android:textSize="20sp"
+        android:textColor="#0F2D57"
+
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="Registrate para empezar"
+        android:fontFamily="sans-serif-light"
+        android:textSize="12sp"
+
+
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Nombre Completo"
+        android:id="@+id/NombreR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+
+
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNombreR"
+            android:backgroundTint="#fff"
+
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Télefono"
+        android:id="@+id/TelefonoR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="8"
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fff"
+            android:id="@+id/txtTelefonoR"
+            android:inputType="number"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Email"
+        android:id="@+id/EmailR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmailR"
+            android:backgroundTint="#fff"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Usuario"
+        android:id="@+id/UsuarioR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtUsuarioR"
+            android:backgroundTint="#fff"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Contraseña"
+        android:id="@+id/PasswordR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fff"
+            android:id="@+id/txtPasswordR"
+            android:inputType="textPassword"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Confirmar Contraseña"
+        android:id="@+id/ConfirmPasswordR"
+        app:boxCornerRadiusBottomEnd="40dp"
+        app:boxCornerRadiusBottomStart="40dp"
+        app:boxCornerRadiusTopEnd="40dp"
+        app:boxCornerRadiusTopStart="40dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
+
+
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fff"
+            android:id="@+id/txtConfirmPasswordR"
+            android:inputType="textPassword"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegistrarse"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#0F2D57"
+            android:text="Registrarse"
+            android:textColor="#fff"
+            android:textSize="12dp"
+
+
+            app:cornerRadius="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </com.google.android.material.button.MaterialButton>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse">
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-black"
+
+
+            android:text="o registrarse con"
+            android:textColor="#0F2D57"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse">
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imageGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:fontFamily="sans-serif-black"
+
+
+            android:text="¿Ya tienes una cuenta?"
+            android:textColor="#0F2D57"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.285"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageGoogle"
+            app:layout_constraintVertical_bias="0.074" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="72dp"
+
+
+            android:fontFamily="sans-serif-black"
+            android:text="Iniciar Sesión"
+            android:textColor="#F7B05B"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/imageGoogle"
+            app:layout_constraintVertical_bias="0.066" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
