@@ -23,9 +23,8 @@
             android:name=".verificacionCodigoCorreo"
             android:exported="false" />
         <activity
-            android:name=".verificacionCodigoContrasena"
-            android:exported="false"
-            android:theme="@style/Theme.SendTrack" />
+            android:name=".Registro"
+            android:exported="false" />
         <activity
             android:name=".olvidasteContrasena"
             android:exported="false" />
