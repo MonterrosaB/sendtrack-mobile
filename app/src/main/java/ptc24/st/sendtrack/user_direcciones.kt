@@ -1,6 +1,7 @@
 package ptc24.st.sendtrack
 
 import Modelo.ClaseConexion
+import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -35,6 +36,8 @@ class user_direcciones : Fragment(), OnMapReadyCallback {
 private lateinit var map: GoogleMap
     private var _binding: FragmentUserDireccionesBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var cordenadas: LatLng
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,15 +81,14 @@ private lateinit var map: GoogleMap
                     val calle = binding.txtEditCalle.text.toString()
                     val distrito = binding.txtEditDistrito.text.toString()
                     val municipio = binding.txtEditMunicipio.text.toString()
-                    val codigoPostal = binding.txtEditCodigoPostal.text.toString()
                     val instrucciones = binding.txtEditInstrucciones.text.toString()
 
                     val (latitud, longitud) =  addressGeocoder(calle, distrito, municipio)
                     if (latitud !=0.0 && longitud !=0.0){
 
                         val insertDireccion = objConexion?.prepareStatement("INSERT INTO Direccion" +
-                                " (IdDireccion, IdCliente, IdDistrito, NombreCompleto,Dirección, Instruccione,Ubicacion)" +
-                                " VALUES (?, '35CAEDC742FA4AF79C7548A3DD3942E3', 1, 'Rodrigo', ?, ?,SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(?, ?, NULL), NULL, NULL))")!!
+                                " (IdDireccion, IdCliente, IdDistrito, NombreCompleto,Dirección, Instruccion,Ubicacion)" +
+                                " VALUES (?, '0FAE51E657574734BDE792E40A0337A4', 1, 'Rodrigo', ?, ?,SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(?, ?, NULL), NULL, NULL))")!!
 
                         insertDireccion.setString(1, UUID.randomUUID().toString())
                         //insertDireccion.setString(2, n) idCliente
@@ -121,7 +123,7 @@ private lateinit var map: GoogleMap
                     val latitude = location.latitude
                     val longitude = location.longitude
 
-                    val cordenadas = LatLng(latitude,longitude)
+                    cordenadas = LatLng(latitude,longitude)
                     val marker = MarkerOptions().position(cordenadas)
                     map.addMarker(marker)
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(cordenadas, 18f),2000, null)
@@ -166,6 +168,12 @@ private lateinit var map: GoogleMap
 
         }
         map.setOnMapClickListener {
+
+            val ubiExacta = Intent(context, user_mapa_direccion::class.java)
+            ubiExacta.putExtra("Cordenadas", cordenadas)
+            println(cordenadas)
+            context?.startActivity(ubiExacta)
+
         }
     }
 

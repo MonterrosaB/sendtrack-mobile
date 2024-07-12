@@ -1,5 +1,6 @@
 package ptc24.st.sendtrack
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MapStyleOptions
+import java.util.Locale
 
 class user_mapa_direccion : AppCompatActivity(),OnMapReadyCallback {
     private lateinit var map: GoogleMap

@@ -9,10 +9,10 @@
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
     app:contentPadding="1dp"
-    app:strokeColor="@color/yellow"
+    android:backgroundTint="@color/white"
 
-    android:layout_width="200dp"
-    android:layout_height="150sp"
+    android:layout_width="220dp"
+    android:layout_height="200dp"
     tools:context=".item_direccion">
 
   <LinearLayout
@@ -35,7 +35,9 @@
           android:layout_marginTop="10dp"
           android:layout_marginEnd="5dp"
           android:text="Rodrigo Monterrosa"
-          android:textColor="@color/blue" />
+          android:textSize="20dp"
+          android:textColor="@color/blue"
+          android:fontFamily="sans-serif-black"/>
 
       <TextView
           android:id="@+id/lbAddress"
@@ -45,6 +47,7 @@
           android:layout_marginTop="10dp"
           android:layout_marginEnd="5dp"
           android:text="Avenida Aguilares 218 San Salvador CP, San Salvador 1101"
+          android:textSize="20dp"
           android:textColor="@color/blue" />
 
     </LinearLayout>
@@ -64,11 +67,12 @@
           android:layout_weight=".5"
           android:linksClickable="true"
           android:text="Editar"
+          android:textSize="18dp"
           android:textAlignment="center"
-          android:textColor="@color/blue" />
+          android:textColor="@color/blue"/>
 
       <View
-          android:layout_width="2dp"
+          android:layout_width="3dp"
           android:layout_height="match_parent"
           android:layout_marginStart="10dp"
           android:layout_marginEnd="10dp"
@@ -82,6 +86,7 @@
           android:layout_weight=".5"
           android:linksClickable="true"
           android:text="Eliminar"
+          android:textSize="18dp"
           android:textAlignment="center"
           android:textColor="@color/blue" />
 

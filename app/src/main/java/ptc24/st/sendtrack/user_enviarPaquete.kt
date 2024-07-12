@@ -48,19 +48,24 @@ private val binding get() = _binding!!
         val largoP = binding.txtEditLargo
         val anchoP =binding.txtEditAncho
         var contenido: Int
-        val user = "779E90DAE07D448B8C9DDB0F5A4A63F7"
+        val user = "0FAE51E657574734BDE792E40A0337A4"
+
         val rcvDireccion = root.findViewById<RecyclerView>(R.id.rcvDireccion)
 
         //Accionadores
         val btnAgregarP = root.findViewById<Button>(R.id.btnAgregarPaquete)
 
-        rcvDireccion.layoutManager = LinearLayoutManager(requireContext())
+        rcvDireccion.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         fun mostrarDirecciones(): List<dtDireccion>{
 
             val objConexion = ClaseConexion().cadenaConexion()
 
-             val statement = objConexion?.prepareStatement("SELECT * FROM Direccion WHERE IdCliente = ?")!!
+             val statement = objConexion?.prepareStatement("SELECT D.IdDireccion, D.IdCliente, D.NombreCompleto as Nombre, D.Direccion, D.Instruccion, DI.Distrito, M.NomMunicipio as Municipio\n" +
+                     "FROM Direccion D " +
+                     "INNER JOIN Distrito DI ON D.IdDistrito = DI.IdDistrito " +
+                     "INNER JOIN Municipio M ON DI.IdMunicipio = M.IdMunicipio " +
+                     "WHERE D.IdCliente = ?")!!
 
             statement.setString(1, user)
 
@@ -72,8 +77,12 @@ private val binding get() = _binding!!
                     val idDireccion = resultSet.getString("IdDireccion")
                     val idClinte = resultSet.getString("IdCliente")
                     val direccionC = resultSet.getString("Direccion")
-                    val nombreCompleto = resultSet.getString("NombreC")
-                    val direccion = dtDireccion(idDireccion, idClinte,nombreCompleto, direccionC)
+                    val instrucion = resultSet.getString("Instruccion")
+                    val nombreCompleto = resultSet.getString("Nombre")
+                    val distrito = resultSet.getString("Distrito")
+                    val municipio = resultSet.getString("Municipio")
+
+                    val direccion = dtDireccion(idDireccion, idClinte,nombreCompleto, direccionC, instrucion,distrito, municipio)
                     direcciones.add(direccion)
                 }
             return direcciones
@@ -87,7 +96,7 @@ private val binding get() = _binding!!
             }
         }
 
-        btnAgregarP.setOnClickListener{
+       /* btnAgregarP.setOnClickListener{
             CoroutineScope(Dispatchers.IO).launch {
 
                 val objConexion = ClaseConexion().cadenaConexion()
@@ -112,7 +121,7 @@ private val binding get() = _binding!!
                     (rcvDireccion.adapter as? AdaptadorDireccion)?.actualizarDirecciones(nuevoTicket)
                 }*/
             }
-        }
+        }*/
 
         val items = listOf("Material", "Design", "Components", "Android")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)

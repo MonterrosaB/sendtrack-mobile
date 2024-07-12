@@ -2,13 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/user_enviarPaquete"
+        android:id="@+id/user_mis_paquetes"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/user_direcciones"
+        android:id="@+id/user_enviarPaquete"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_dashboard" />
+
 
 </menu>
