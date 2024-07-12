@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ptc24.st.sendtrack.databinding.ActivityRegistroBinding
+import java.util.UUID
 
 class Registro : AppCompatActivity() {
 
@@ -47,12 +48,13 @@ class Registro : AppCompatActivity() {
 
                     val objConexion = ClaseConexion().cadenaConexion()
 
-                    val addUser =objConexion?.prepareStatement("insert into Cliente(NombreCompleto, Telefono, Email, Usuario, Contrasena) values(?, ?, ?, ?, ?)")!!
-                    addUser.setString(1, txtNombre)
-                    addUser.setString(2, txtTelefono)
-                    addUser.setString(3, txtEmail)
-                    addUser.setString(4, txtUsuario)
-                    addUser.setString(5, txtContrasena)
+                    val addUser =objConexion?.prepareStatement("insert into Cliente(idCliente, NombreCompleto, Telefono, Email, Usuario, Contrasena) values(?, ?, ?, ?, ?, ?)")!!
+                    addUser.setString(1, UUID.randomUUID().toString())
+                    addUser.setString(2, txtNombre)
+                    addUser.setString(3, txtTelefono)
+                    addUser.setString(4, txtEmail)
+                    addUser.setString(5, txtUsuario)
+                    addUser.setString(6, txtContrasena)
                     addUser.executeUpdate()
 
                 }
