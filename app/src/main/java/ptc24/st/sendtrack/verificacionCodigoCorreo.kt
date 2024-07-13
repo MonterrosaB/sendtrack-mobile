@@ -25,6 +25,8 @@ class verificacionCodigoCorreo : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //recibimos el codigo enviado al correo, el correo ingresado en la activity anterior y la query ejecutada
         val correoRecibido = olvidasteContrasena.envioCodigo.Correo
         val codigoRecibido = olvidasteContrasena.envioCodigo.codigoRecuperacion.toString()
 
@@ -66,6 +68,8 @@ class verificacionCodigoCorreo : AppCompatActivity() {
                 if(codigo == codigoRecibido || codigo == nuevoCodigo.toString()){
                     Toast.makeText(this@verificacionCodigoCorreo, "Codigo verificado correctamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@verificacionCodigoCorreo, cambioContrasena::class.java)
+
+                    //volvemos a enviar la query ejecutada
                     intent.putExtra("queryEjecutada", queryEjecutada)
                     startActivity(intent)
                 }
