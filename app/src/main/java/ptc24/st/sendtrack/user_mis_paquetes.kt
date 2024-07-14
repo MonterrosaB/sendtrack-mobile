@@ -42,7 +42,7 @@ class user_mis_paquetes : Fragment() {
         val root = binding.root
 
         //Elementos
-        val btnMostrarPaquete = root.findViewById<Button>(R.id.txtEditCodigoP)
+        val btnMostrarPaquete = root.findViewById<Button>(R.id.btnMostrarMapa)
         val rcvMispaquetes = root.findViewById<RecyclerView>(R.id.rcvMisPaquetes)
 
         rcvMispaquetes.layoutManager = GridLayoutManager(context,  2)

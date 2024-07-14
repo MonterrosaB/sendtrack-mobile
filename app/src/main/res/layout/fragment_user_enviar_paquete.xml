@@ -177,8 +177,7 @@
                 android:id="@+id/cbContenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                />
+                android:inputType="none"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -207,27 +206,11 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/swiSeguro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:checked="true"
-            android:fontFamily="sans-serif-medium"
-            android:minWidth="50dp"
-            android:minHeight="50dp"
-            android:text="Seguro de paquete"
-            android:textColor="@color/blue"
-            android:textSize="18dp"
-            app:thumbTint="@color/blue"
-            app:useMaterialThemeColors="false" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvDireccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="200dp"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
             android:orientation="horizontal"

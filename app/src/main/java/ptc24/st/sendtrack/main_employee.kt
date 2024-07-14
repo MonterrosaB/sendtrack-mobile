@@ -17,7 +17,6 @@ class main_employee : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainEmployeeBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +32,7 @@ class main_employee : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerEmployee)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

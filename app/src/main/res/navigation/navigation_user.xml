@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/user_direcciones">
+    app:startDestination="@+id/user_enviarPaquete">
+
     <fragment
         android:id="@+id/user_enviarPaquete"
         android:name="ptc24.st.sendtrack.user_enviarPaquete"

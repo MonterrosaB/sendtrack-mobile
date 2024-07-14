@@ -2,6 +2,8 @@ package ptc24.st.sendtrack
 
 import Modelo.ClaseConexion
 import Modelo.dtDireccion
+import Modelo.dtMunicipio
+import Modelo.dtSeguro
 import RVHDireccion.AdaptadorDireccion
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +13,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -88,55 +93,75 @@ private val binding get() = _binding!!
             return direcciones
         }
 
+        fun getSeguro(): List<dtSeguro>{
+
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val statement = objConexion?.createStatement()
+
+            val resultSet = statement?.executeQuery("select * from Seguro")!!
+
+            val listadoSeguro = mutableListOf<dtSeguro>()
+
+
+            while (resultSet.next()){
+                val idSeguro = resultSet.getString("IdSeguro")
+                val tipoSeguro = resultSet.getString("ValorMercancia")
+                val precio = resultSet.getDouble("Costo")
+
+                println(idSeguro)
+
+                val seguros = dtSeguro(idSeguro, tipoSeguro, precio)
+
+                listadoSeguro.add(seguros)
+            }
+            return listadoSeguro
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             val direccionesDB = mostrarDirecciones()
+             val listaSeguro = getSeguro()
+            val tipoSeguro = listaSeguro.map { it.tipoSeguro }
+
             withContext(Dispatchers.Main){
                 val adapter = AdaptadorDireccion(direccionesDB)
                 rcvDireccion.adapter = adapter
-            }
+
+                val seguroAdapter =
+                    ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipoSeguro)
+                (binding.cbContenido as? AutoCompleteTextView)?.setAdapter(seguroAdapter)            }
         }
 
-       /* btnAgregarP.setOnClickListener{
-            CoroutineScope(Dispatchers.IO).launch {
+       btnAgregarP.setOnClickListener{
+           CoroutineScope(Dispatchers.IO).launch {
 
-                val objConexion = ClaseConexion().cadenaConexion()
+               val objConexion = ClaseConexion().cadenaConexion()
 
-                val addPaquete = objConexion?.prepareStatement("INSERT INTO Paquete(IdCliente, Peso, Alto, Largo, Ancho, FechaInicio, IdDireccion, Origen, IdEmpaquetado)" +
-                        " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? )")!!
+               val addPaquete = objConexion?.prepareStatement("INSERT INTO Paquete(Peso, Alto, Largo, Ancho, IdDireccion, Origen, IdSeguro)" +
+                       " VALUES(?, ?, ?, ?, ?, ?, ? )")!!
 
-                //addPaquete.setString(1, idCliente)  LOGIN
-                addPaquete.setDouble(2, pesoP.text.toString().toDouble())
-                addPaquete.setDouble(3, altoP.text.toString().toDouble())
-                addPaquete.setDouble(4, largoP.text.toString().toDouble())
-                addPaquete.setDouble(5, anchoP.text.toString().toDouble())
-                //arreglar defaul date en db
-                //addPaquete.setDate(6, )
-                //addPaquete.setString(7, idDireccion) RCV
-                //addPaquete.setInt(8, dropdown) DROPDOWN
-                //addPaquete.setString(9, idEmpaquetado) ??
-                addPaquete.executeUpdate()
 
-                /*val nuevoTicket = mostrarDirecciones()
-                withContext(Dispatchers.Main){
-                    (rcvDireccion.adapter as? AdaptadorDireccion)?.actualizarDirecciones(nuevoTicket)
-                }*/
-            }
-        }*/
+               addPaquete.setDouble(1, pesoP.text.toString().toDouble())
+               addPaquete.setDouble(2, altoP.text.toString().toDouble())
+               addPaquete.setDouble(3, largoP.text.toString().toDouble())
+               addPaquete.setDouble(4, anchoP.text.toString().toDouble())
+               //addPaquete.setDate(6, )
+               //addPaquete.setString(7, idDireccion) RCV
+               //addPaquete.setInt(8, dropdown) DROPDOWN
+               //addPaquete.setString(9, idEmpaquetado) ??
+               addPaquete.executeUpdate()
 
-        val items = listOf("Material", "Design", "Components", "Android")
+               val nuevoTicket = mostrarDirecciones()
+               withContext(Dispatchers.Main){
+                   (rcvDireccion.adapter as? AdaptadorDireccion)?.actualizarDirecciones(nuevoTicket)
+               }
+           }
+       }
+
+        /*val items = listOf("Material", "Design", "Components", "Android")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-        (binding.cbContenido as? AutoCompleteTextView)?.setAdapter(adapter)
+        (binding.cbContenido as? AutoCompleteTextView)?.setAdapter(adapter)*/
 
-        binding.swiSeguro.setOnCheckedChangeListener { buttonView, isChecked ->
-
-            if (isChecked) {contenido = 1
-                println(contenido)
-            }else{
-                contenido = 0
-                println(contenido)
-            }
-
-        }
         return root
     }
 
