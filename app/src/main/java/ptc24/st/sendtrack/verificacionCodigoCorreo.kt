@@ -62,7 +62,6 @@ class verificacionCodigoCorreo : AppCompatActivity() {
                 }
 
                 if(codigo == codigoRecibido || codigo == nuevoCodigo.toString()){
-                    //Aqui va el query para verificar el correo desde la base de datos
 
                     Toast.makeText(this@verificacionCodigoCorreo, "Codigo verificado correctamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@verificacionCodigoCorreo, cambioContrasena::class.java)

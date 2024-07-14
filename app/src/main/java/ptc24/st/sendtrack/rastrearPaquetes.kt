@@ -36,7 +36,7 @@ class rastrearPaquetes : AppCompatActivity(), OnMapReadyCallback {
             val flInformacionPaquete = findViewById<FrameLayout>(R.id.flInformacionPaquete)
 
             BottomSheetBehavior.from(flInformacionPaquete).apply {
-            peekHeight = 200
+            peekHeight = 10
             this.state = BottomSheetBehavior.STATE_COLLAPSED
 
 
