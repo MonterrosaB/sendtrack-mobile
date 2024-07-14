@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation_admin">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_admin"
+    app:startDestination="@id/fragment_Paquetes">
 
+    <fragment
+        android:id="@+id/fragment_Paquetes"
+        android:name="ptc24.st.sendtrack.fragment_Paquetes"
+        android:label="fragment__paquetes"
+        tools:layout="@layout/fragment__paquetes" />
 </navigation>
