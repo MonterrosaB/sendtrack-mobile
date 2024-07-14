@@ -19,11 +19,7 @@
         <activity
             android:name=".rastrearPaquetes"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".cambioContrasena"
@@ -52,9 +48,19 @@
         <activity
             android:name=".user_mapa_direccion"
             android:exported="false" />
+
+
         <activity
             android:name=".main_employee"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".main_admin"
             android:exported="false" />
@@ -67,7 +73,9 @@
         <activity
             android:name=".main_user"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name">
+
+        </activity>
     </application>
 
 </manifest>

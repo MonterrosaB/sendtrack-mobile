@@ -39,7 +39,7 @@ class fragment_Empleados : Fragment() {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment__empleados, container, false)
 
-        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = root.findViewById<RecyclerView>(R.id.rcvMovimientos)
         val adapter = AdaptadorEmpleados(requireContext())
 
         recyclerView.layoutManager = LinearLayoutManager(context)
