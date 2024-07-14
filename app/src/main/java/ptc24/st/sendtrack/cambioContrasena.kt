@@ -26,6 +26,8 @@ class cambioContrasena : AppCompatActivity() {
             insets
         }
 
+
+        //recibimos query ejecutada y correo ingresado
         val queryEjecutada = intent.getStringExtra("queryEjecutada")
         val correoRecibido = olvidasteContrasena.envioCodigo.Correo
 
@@ -43,7 +45,11 @@ class cambioContrasena : AppCompatActivity() {
                 if (nuevaContrasena == confirmarContrasenaNueva){
                     try {
                         val actualizarContrasena = when (queryEjecutada) {
+                            //si la query ejecutada fue en la tabla Clientes, actualizamos la contraseña dependiendo del correo ingresado
                             "Cliente" -> objConexion?.prepareStatement("update Cliente set Contrasena = ? where Email = ?")
+
+                            //si la query ejecutada fue en la tabla Empleado, actualizamos la contraseña en la tabla Usuario ya que las credenciales de
+                            //los empleado se encuentran en dicha tabla
                             "Empleado" -> objConexion?.prepareStatement("update Usuario SET Contrasena = ? where Email = ?")
                             else -> null
                         }
@@ -51,15 +57,10 @@ class cambioContrasena : AppCompatActivity() {
                         if (actualizarContrasena != null) {
                             actualizarContrasena.setString(1, confirmarContrasenaNueva)
                             actualizarContrasena.setString(2, correoRecibido)
-
-                            val rowsUpdated = actualizarContrasena.executeUpdate()
+                            actualizarContrasena.executeUpdate()
 
                             withContext(Dispatchers.Main) {
-                                if (rowsUpdated > 0) {
-                                    Toast.makeText(this@cambioContrasena, "Contraseña actualizada exitosamente", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(this@cambioContrasena, "Error al actualizar la contraseña", Toast.LENGTH_SHORT).show()
-                                }
+                                Toast.makeText(this@cambioContrasena, "Contraseña actualizada exitosamente", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } catch (e: SQLException) {

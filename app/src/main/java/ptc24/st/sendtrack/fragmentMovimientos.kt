@@ -1,10 +1,19 @@
 package ptc24.st.sendtrack
 
+import Modelo.ClaseConexion
+import Modelo.dtMovimientos
+import RVHMovimientos.AdaptadorMovimientos
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,9 +43,42 @@ class fragmentMovimientos : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movimientos, container, false)
-    }
+        val root = inflater.inflate(R.layout.fragment_movimientos, container, false)
 
+        val rcvMovimientos = root.findViewById<RecyclerView>(R.id.rcvMovimientos)
+        rcvMovimientos.layoutManager = LinearLayoutManager(requireContext())
+
+        fun mostrarMovimientos(): List<dtMovimientos>{
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val statement = objConexion?.prepareStatement("Select *  from Almacen")!!
+
+            val resultSet = statement.executeQuery()
+
+            val dtMovimientos = mutableListOf<dtMovimientos>()
+
+            while (resultSet.next()){
+                val idCargamento = resultSet.getString("idCargamento")
+                val horaEntrada = resultSet.getString("horaEntrada")
+                val movimiento = dtMovimientos(horaEntrada, idCargamento)
+
+                dtMovimientos.add(movimiento)
+            }
+            return mostrarMovimientos()
+
+
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val movimientosDB = mostrarMovimientos()
+            withContext(Dispatchers.Main){
+                val adapter = AdaptadorMovimientos(movimientosDB)
+                rcvMovimientos.adapter = adapter
+            }
+        }
+
+        return root
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

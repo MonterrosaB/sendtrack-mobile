@@ -28,8 +28,6 @@ class verificacionCodigoCorreo : AppCompatActivity() {
         val correoRecibido = olvidasteContrasena.envioCodigo.Correo
         val codigoRecibido = olvidasteContrasena.envioCodigo.codigoRecuperacion.toString()
 
-        val queryEjecutada = intent.getStringExtra("queryEjecutada")
-
         val txtCodigoCorreo = findViewById<EditText>(R.id.txtCodigoCorreo)
         val lblVolverEnviarCorreo = findViewById<TextView>(R.id.lblVolverEnviarCodigo)
         val btnVerificarCodigo = findViewById<Button>(R.id.btnVerificarCodigo)
@@ -64,9 +62,9 @@ class verificacionCodigoCorreo : AppCompatActivity() {
                 }
 
                 if(codigo == codigoRecibido || codigo == nuevoCodigo.toString()){
+
                     Toast.makeText(this@verificacionCodigoCorreo, "Codigo verificado correctamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@verificacionCodigoCorreo, cambioContrasena::class.java)
-                    intent.putExtra("queryEjecutada", queryEjecutada)
                     startActivity(intent)
                 }
                 else{

@@ -42,7 +42,7 @@ class olvidasteContrasena : AppCompatActivity() {
 
         btnEnviarCodigo.setOnClickListener{
 
-             Correo = txtCorreoolvide.text.toString()
+            Correo = txtCorreoolvide.text.toString()
             if (Correo.isEmpty()){
                 txtCorreoolvide.error = "Ingrese el correo"
                 hayErrores = true
@@ -70,13 +70,19 @@ class olvidasteContrasena : AppCompatActivity() {
                     verificarCorreoEmpleado.setString(1, Correo)
                     val resultadoCorreoEmpleado = verificarCorreoEmpleado.executeQuery()
 
+
                     if (resultadoCorreoCliente.next() == true) {
                         queryEjecutada = "Cliente"
                     } else if (resultadoCorreoEmpleado.next() == true) {
                         queryEjecutada = "Empleado"
                     }
+                    //Ejecutamos dos querys y guardamos la query que nos retorna el correo existente
+
+
+
 
                     if (queryEjecutada != null) {
+                        //si la query no es null enviamos el codigo de recuperacion al correo ingresado
                         Looper.prepare()
                         enviarCorreo(txtCorreoolvide.text.toString(), "Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
                         val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)

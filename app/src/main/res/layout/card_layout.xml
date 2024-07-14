@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_margin="12dp"
+    card_view:cardBackgroundColor="#fff"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="6dp"
+    card_view:contentPadding="4dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        >
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item_image"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rodrigo Monterrosa"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbNombre"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/item_image"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_alignParentLeft="true"
+            />
+
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/image_car"
+            android:background="@drawable/moto"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehiculo"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbVehiculo"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/image_car"
+            android:layout_toRightOf="@id/image_car"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalle"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbDetalleV"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/image_car"
+            android:layout_toRightOf="@id/image_car"
+            android:layout_below="@+id/lbVehiculo"
+            android:layout_marginStart="10dp"
+            android:textSize="10sp"
+            />
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_below="@+id/lbVehiculo"
+            >
+
+            <RelativeLayout
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="16dp"
+                android:background="#F7B05B"
+
+                >
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/image_ubi"
+            android:background="@drawable/ubicacion"
+            android:layout_below="@+id/image_car"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zona"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbZona"
+            android:textStyle="bold"
+            android:layout_below="@+id/lbDetalleV"
+            android:layout_toEndOf="@+id/image_ubi"
+            android:layout_toRightOf="@id/image_ubi"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalle"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbDetalleZ"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/image_ubi"
+            android:layout_toRightOf="@id/image_ubi"
+            android:layout_below="@+id/lbZona"
+            android:layout_marginStart="10dp"
+            android:textSize="10sp"
+            />
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_below="@+id/lbZona"
+            >
+
+            <RelativeLayout
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="16dp"
+                android:background="#F7B05B"
+
+                >
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/image_hora"
+            android:background="@drawable/hora"
+            android:layout_below="@+id/image_ubi"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora de entrada y salida"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbHora"
+            android:textStyle="bold"
+            android:layout_below="@+id/lbDetalleZ"
+            android:layout_toEndOf="@+id/image_hora"
+            android:layout_toRightOf="@id/image_hora"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detalle"
+            android:textColor="#0F2D57"
+            android:id="@+id/lbDetalleH"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/image_hora"
+            android:layout_toRightOf="@id/image_hora"
+            android:layout_below="@+id/lbHora"
+            android:layout_marginStart="10dp"
+            android:textSize="10sp"
+            />
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_below="@+id/lbHora"
+            >
+
+            <RelativeLayout
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="16dp"
+                android:background="#F7B05B"
+
+                >
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

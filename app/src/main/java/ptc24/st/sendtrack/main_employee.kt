@@ -2,7 +2,6 @@ package ptc24.st.sendtrack
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -11,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ptc24.st.sendtrack.databinding.ActivityMainEmployeeBinding
-import ptc24.st.sendtrack.databinding.ActivityMainUserBinding
 
 class main_employee : AppCompatActivity() {
 
