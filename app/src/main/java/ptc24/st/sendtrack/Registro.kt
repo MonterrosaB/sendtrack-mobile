@@ -41,6 +41,11 @@ class Registro : AppCompatActivity() {
         val txtConPass = findViewById<EditText>(R.id.txtConfirmPasswordR)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
 
+        fun hashSHA256(contraseniaEscrita: String): String {
+            val bytes = java.security.MessageDigest.getInstance("SHA-256").digest(contraseniaEscrita.toByteArray())
+            return bytes.joinToString("") { "%02x".format(it) }
+        }
+
         btnRegistrarse.setOnClickListener{
             val nombre = binding.txtNombreR.text.toString()
             val telefono = binding.txtTelefonoR.text.toString()
@@ -48,6 +53,8 @@ class Registro : AppCompatActivity() {
             val usuario = binding.txtUsuarioR.text.toString()
             val contrasena = binding.txtPasswordR.text.toString()
             val confirmCont = binding.txtConfirmPasswordR.text.toString()
+
+            val contraEncript = hashSHA256(contrasena)
 
             if(nombre.isEmpty()){
                 txtNombre.error = "Nombre obligatorio"
@@ -140,7 +147,7 @@ class Registro : AppCompatActivity() {
                             addUser.setString(2, telefono)
                             addUser.setString(3, email)
                             addUser.setString(4, usuario)
-                            addUser.setString(5, contrasena)
+                            addUser.setString(5, contraEncript)
                             addUser.executeUpdate()
 
                         }
