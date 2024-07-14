@@ -19,7 +19,7 @@ class AdaptadorMovimientos(var Datos: List<dtMovimientos>): RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolderMovimientos, position: Int) {
         val itemMovimientos = Datos[position]
         holder.lblidCodigoCargamento.text = itemMovimientos.IdCargamento
-        holder.lblHoraEntrada.text = itemMovimientos.horaEntrada.toString()
+        holder.lblHoraEntrada.text = itemMovimientos.horaEntrada
     }
 
 }
