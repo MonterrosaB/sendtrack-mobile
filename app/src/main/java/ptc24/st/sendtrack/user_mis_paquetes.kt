@@ -5,6 +5,7 @@ import Modelo.dtDireccion
 import Modelo.dtMisPaquetes
 import RVHDireccion.AdaptadorDireccion
 import RVHMisPaquetes.AdaptadorMisPaquetes
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,7 +26,6 @@ class user_mis_paquetes : Fragment() {
 
     private var _binding: FragmentUserMisPaquetesBinding? = null
     private val binding get() = _binding!!
-    val user = "0FAE51E657574734BDE792E40A0337A4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,12 @@ class user_mis_paquetes : Fragment() {
         val btnMostrarPaquete = root.findViewById<Button>(R.id.btnMostrarMapa)
         val rcvMispaquetes = root.findViewById<RecyclerView>(R.id.rcvMisPaquetes)
 
-        rcvMispaquetes.layoutManager = GridLayoutManager(context,  2)
+        btnMostrarPaquete.setOnClickListener {
+            val miPaquete = Intent(requireContext(), rastrearPaquetes::class.java)
+            startActivity(miPaquete)
+        }
+
+        rcvMispaquetes.layoutManager = GridLayoutManager(context, 2, RecyclerView.HORIZONTAL, false)
 
         fun mostrarMisPaquetes(): List<dtMisPaquetes>{
 
@@ -55,7 +60,7 @@ class user_mis_paquetes : Fragment() {
                     "INNER JOIN Direccion D ON D.IdDireccion = P.IdDireccion " +
                     "where idCliente = ?")!!
 
-            statement.setString(1, user)
+            statement.setString(1, Login.variablesGlobalesLogin.idUser)
 
             val resultSet = statement.executeQuery()
 

@@ -1,5 +1,6 @@
 package ptc24.st.sendtrack
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +36,5 @@ class main_employee : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        //PROGRAMAR AQUI
-
     }
 }

@@ -1,10 +1,13 @@
 package ptc24.st.sendtrack
 
 import Modelo.ClaseConexion
+import Modelo.SHA256
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -40,10 +43,12 @@ class Registro : AppCompatActivity() {
         val txtPass = findViewById<EditText>(R.id.txtPasswordR)
         val txtConPass = findViewById<EditText>(R.id.txtConfirmPasswordR)
         val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
+        val lbIniciarSesion = findViewById<TextView>(R.id.lbIniciarSesion)
 
-        fun hashSHA256(contraseniaEscrita: String): String {
-            val bytes = java.security.MessageDigest.getInstance("SHA-256").digest(contraseniaEscrita.toByteArray())
-            return bytes.joinToString("") { "%02x".format(it) }
+        lbIniciarSesion.setOnClickListener {
+            val pLogin = Intent(this,Login::class.java)
+            startActivity(pLogin)
+            finish()
         }
 
         btnRegistrarse.setOnClickListener{
@@ -54,7 +59,7 @@ class Registro : AppCompatActivity() {
             val contrasena = binding.txtPasswordR.text.toString()
             val confirmCont = binding.txtConfirmPasswordR.text.toString()
 
-            val contraEncript = hashSHA256(contrasena)
+            val contraEncript = SHA256().hashSHA256(contrasena)
 
             if(nombre.isEmpty()){
                 txtNombre.error = "Nombre obligatorio"
@@ -134,7 +139,6 @@ class Registro : AppCompatActivity() {
             }
 
             if (hayErrores == false) {
-                try {
 
                     if (contrasena == confirmCont && hayErrores == false || confirmCont == contrasena && hayErrores == false) {
                         CoroutineScope(Dispatchers.IO).launch {
@@ -149,32 +153,26 @@ class Registro : AppCompatActivity() {
                             addUser.setString(4, usuario)
                             addUser.setString(5, contraEncript)
                             addUser.executeUpdate()
-
                         }
                         AlertDialog.Builder(this)
                             .setTitle("Registro completado")
-                            .setMessage("Se ha completado el registro")
+                            .setMessage("Se ha agregado un paquete")
                             .setPositiveButton("Okay"){ _,_ ->
+
                                 binding.txtNombreR.text = null
                                 binding.txtTelefonoR.text = null
                                 binding.txtEmailR.text = null
                                 binding.txtUsuarioR.text = null
                                 binding.txtPasswordR.text = null
                                 binding.txtConfirmPasswordR.text = null
-
                             }
                             .show()
-
-
                     } else {
                         Toast.makeText(this, "Contraseña no coincide", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: Exception) {
-                    println("Este es el error $e.")
-                }
+
             }
             else{
-
                 AlertDialog.Builder(this)
                     .setTitle("Error de registro")
                     .setMessage("No ha sido posible completar el registro")
@@ -183,13 +181,7 @@ class Registro : AppCompatActivity() {
                         hayErrores = false
                     }
                     .show()
-
-
             }
-
         }
-
     }
-
-
 }
