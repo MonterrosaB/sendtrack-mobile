@@ -1,13 +1,15 @@
 package ptc24.st.sendtrack
 
 import Modelo.ClaseConexion
-import Modelo.dtMovimientos
-import RVHMovimientos.AdaptadorMovimientos
+import Modelo.dtPaquetes
+import RVHPaquetes.adaptadorPaquetes
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -22,10 +24,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [fragmentMovimientos.newInstance] factory method to
+ * Use the [fragment_Paquetes.newInstance] factory method to
  * create an instance of this fragment.
  */
-class fragmentMovimientos : Fragment() {
+class fragment_Paquetes : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -43,42 +45,50 @@ class fragmentMovimientos : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_movimientos, container, false)
+        val root = inflater.inflate(R.layout.fragment__paquetes, container, false)
 
-        val rcvMovimientos = root.findViewById<RecyclerView>(R.id.rcvMovimientos)
-        rcvMovimientos.layoutManager = LinearLayoutManager(requireContext())
+        val rcvPaquetes = root.findViewById<RecyclerView>(R.id.rcvPaquetes)
+        rcvPaquetes.layoutManager = LinearLayoutManager(requireContext())
 
-        fun mostrarMovimientos(): List<dtMovimientos>{
+        fun mostrarPaquetes(): List<dtPaquetes>{
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("Select *  from Almacen")!!
+            val statement = objConexion?.prepareStatement(
+                "select p.IdPaquete, p.Peso, p.Alto, p.Ancho, p.Largo\n" +
+                    "from Paquete p\n" +
+                    "join Almacen a on a.IdCargamento = p.IdPaquete\n" +
+                    "where a.IdCargamento = ? ")!!
 
             val resultSet = statement.executeQuery()
 
-            val dtMovimientos = mutableListOf<dtMovimientos>()
+            val dtPaquetes = mutableListOf<dtPaquetes>()
 
             while (resultSet.next()){
-                val idCargamento = resultSet.getString("idCargamento")
-                val horaEntrada = resultSet.getString("horaEntrada")
-                val movimiento = dtMovimientos(horaEntrada, idCargamento)
+                val idPaquete = resultSet.getString("idPaquete")
+                val peso = resultSet.getString("peso")
+                val altura = resultSet.getString("altura")
+                val ancho = resultSet.getString("ancho")
+                val largo = resultSet.getString("largo")
 
-                dtMovimientos.add(movimiento)
+                val paquete = dtPaquetes(idPaquete, peso, altura, ancho, largo)
+
+                dtPaquetes.add(paquete)
+
             }
-            return mostrarMovimientos()
-
-
+            return mostrarPaquetes()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val movimientosDB = mostrarMovimientos()
+            val paquetesDB = mostrarPaquetes()
             withContext(Dispatchers.Main){
-                val adapter = AdaptadorMovimientos(movimientosDB)
-                rcvMovimientos.adapter = adapter
+                val adapter = adaptadorPaquetes(paquetesDB)
+                rcvPaquetes.adapter = adapter
             }
         }
 
         return root
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -86,12 +96,12 @@ class fragmentMovimientos : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment fragmentMovimientos.
+         * @return A new instance of fragment fragment_Paquetes.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            fragmentMovimientos().apply {
+            fragment_Paquetes().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

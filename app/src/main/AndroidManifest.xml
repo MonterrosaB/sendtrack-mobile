@@ -2,18 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
-        tools:ignore="SelectedPhotoAccess" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -29,26 +17,38 @@
         android:theme="@style/Theme.SendTrack"
         tools:targetApi="31">
         <activity
+            android:name=".splashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".rastrearPaquetes"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".cambioContrasena"
             android:exported="false" />
         <activity
             android:name=".verificacionCodigoCorreo"
             android:exported="false" />
-
+        <activity
+            android:name=".Registro"
+            android:exported="false" />
         <activity
             android:name=".olvidasteContrasena"
             android:exported="false" />
         <activity
             android:name=".Login"
-            android:exported="true">
+            android:exported="true"></activity>
 
-        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_map_key" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".item_direccion"
@@ -58,13 +58,7 @@
             android:exported="false" />
         <activity
             android:name=".main_employee"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".main_admin"
             android:exported="false" />
@@ -77,7 +71,7 @@
         <activity
             android:name=".main_user"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"></activity>
     </application>
 
 </manifest>

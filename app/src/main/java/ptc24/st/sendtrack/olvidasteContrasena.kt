@@ -1,9 +1,12 @@
 package ptc24.st.sendtrack
 
+import Modelo.ClaseConexion
 import android.content.Intent
 import android.os.Bundle
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -39,7 +42,7 @@ class olvidasteContrasena : AppCompatActivity() {
 
         btnEnviarCodigo.setOnClickListener{
 
-             Correo = txtCorreoolvide.text.toString()
+            Correo = txtCorreoolvide.text.toString()
             if (Correo.isEmpty()){
                 txtCorreoolvide.error = "Ingrese el correo"
                 hayErrores = true
@@ -54,11 +57,45 @@ class olvidasteContrasena : AppCompatActivity() {
 
 
             if(!hayErrores){
-                CoroutineScope(Dispatchers.Main).launch {
-                    
-                    enviarCorreo(txtCorreoolvide.text.toString(),"Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
-                    val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)
-                    startActivity(intent)
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    var queryEjecutada: String? = null
+
+                    val verificarCorreoCliente = objConexion?.prepareStatement("select * from Cliente where Email = ?")!!
+                    verificarCorreoCliente.setString(1, Correo)
+                    val resultadoCorreoCliente = verificarCorreoCliente.executeQuery()
+
+                    val verificarCorreoEmpleado = objConexion?.prepareStatement("select * from Empleado where Email = ?")!!
+                    verificarCorreoEmpleado.setString(1, Correo)
+                    val resultadoCorreoEmpleado = verificarCorreoEmpleado.executeQuery()
+
+
+                    if (resultadoCorreoCliente.next() == true) {
+                        queryEjecutada = "Cliente"
+                    } else if (resultadoCorreoEmpleado.next() == true) {
+                        queryEjecutada = "Empleado"
+                    }
+                    //Ejecutamos dos querys y guardamos la query que nos retorna el correo existente
+
+
+
+
+                    if (queryEjecutada != null) {
+                        //si la query no es null enviamos el codigo de recuperacion al correo ingresado
+                        Looper.prepare()
+                        enviarCorreo(txtCorreoolvide.text.toString(), "Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
+                        val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)
+                        intent.putExtra("queryEjecutada", queryEjecutada)
+                        startActivity(intent)
+                    } else {
+                        Looper.prepare()
+                        Toast.makeText(this@olvidasteContrasena, "Correo no registrado", Toast.LENGTH_SHORT).show()
+                    }
+
+
+
+
 
                 }
             }
