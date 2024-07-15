@@ -52,6 +52,7 @@ dependencies {
     implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
+
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/user_enviarPaquete">
+
     <fragment
         android:id="@+id/user_enviarPaquete"
         android:name="ptc24.st.sendtrack.user_enviarPaquete"
@@ -14,4 +15,9 @@
         android:name="ptc24.st.sendtrack.user_direcciones"
         android:label="fragment_user_direcciones"
         tools:layout="@layout/fragment_user_direcciones" />
+    <fragment
+        android:id="@+id/user_mis_paquetes"
+        android:name="ptc24.st.sendtrack.user_mis_paquetes"
+        android:label="fragment_user_mis_paquetes"
+        tools:layout="@layout/fragment_user_mis_paquetes" />
 </navigation>

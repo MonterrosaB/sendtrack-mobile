@@ -1,5 +1,6 @@
 package ptc24.st.sendtrack
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,6 @@ import ptc24.st.sendtrack.databinding.ActivityMainEmployeeBinding
 class main_employee : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainEmployeeBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,5 @@ class main_employee : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        //PROGRAMAR AQUI
-
     }
 }

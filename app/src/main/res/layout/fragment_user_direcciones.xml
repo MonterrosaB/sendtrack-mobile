@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".user_enviarPaquete"
+    tools:context=".user_direcciones"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -31,6 +31,33 @@
         android:gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="15dp"
+            android:hint="Nombre Completo"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:boxCornerRadiusTopStart="45dp"
+            app:boxCornerRadiusTopEnd="45dp"
+            app:boxCornerRadiusBottomStart="45dp"
+            app:boxCornerRadiusBottomEnd="45dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="50"
+            app:boxBackgroundColor="@color/yellow"
+            android:textColorHint="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:boxStrokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEditNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInputCalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +71,7 @@
             app:boxCornerRadiusBottomStart="45dp"
             app:boxCornerRadiusBottomEnd="45dp"
             app:counterEnabled="true"
-            app:counterMaxLength="100"
+            app:counterMaxLength="60"
             app:boxBackgroundColor="@color/yellow"
             android:textColorHint="@color/blue"
             app:hintTextColor="@color/blue"
@@ -65,56 +92,23 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputDistrito"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Distrito"
-                app:boxCornerRadiusTopStart="45dp"
-                app:boxCornerRadiusTopEnd="45dp"
-                app:boxCornerRadiusBottomStart="45dp"
-                app:boxCornerRadiusBottomEnd="45dp"
-                android:layout_weight="1"
-                app:boxBackgroundColor="@color/yellow"
-                android:textColorHint="@color/blue"
-                app:hintTextColor="@color/blue"
-                app:boxStrokeWidth="0dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtEditDistrito"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+        <Spinner
+            android:id="@+id/spnMunicipio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInputMunicipio"
+            <Spinner
+                android:id="@+id/spnDistrito"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Municipio"
-                app:boxCornerRadiusTopStart="45dp"
-                app:boxCornerRadiusTopEnd="45dp"
-                app:boxCornerRadiusBottomStart="45dp"
-                app:boxCornerRadiusBottomEnd="45dp"
-                android:layout_weight="1"
-                app:boxBackgroundColor="@color/yellow"
-                android:textColorHint="@color/blue"
-                app:hintTextColor="@color/blue"
-                app:boxStrokeWidth="0dp">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtEditMunicipio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
@@ -136,14 +130,7 @@
             app:boxBackgroundColor="@color/yellow"
             android:textColorHint="@color/blue"
             app:hintTextColor="@color/blue"
-            app:boxStrokeWidth="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtEditCodigoPostal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:boxStrokeWidth="0dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtInputInstrucciones"
@@ -159,7 +146,7 @@
             app:boxCornerRadiusBottomStart="45dp"
             app:boxCornerRadiusBottomEnd="45dp"
             app:counterEnabled="true"
-            app:counterMaxLength="100"
+            app:counterMaxLength="30"
             app:boxBackgroundColor="@color/yellow"
             android:textColorHint="@color/blue"
             app:hintTextColor="@color/blue"
@@ -168,7 +155,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtEditInstrucciones"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +173,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
@@ -195,7 +182,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="Verificar Dirección" />
+            android:text="Verificar Dirección"
+            android:backgroundTint="@color/blue"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAgregarD"
@@ -203,7 +191,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="Agregar Dirección"/>
+            android:text="Agregar Dirección"
+            android:backgroundTint="@color/blue"/>
     </LinearLayout>
 
 </LinearLayout>
