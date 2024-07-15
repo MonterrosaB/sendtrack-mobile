@@ -3,13 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_user"
-    app:startDestination="@id/fragmentMovimientos">
+    app:startDestination="@id/employee_ruta">
 
-    <fragment
-        android:id="@+id/fragmentMovimientos"
-        android:name="ptc24.st.sendtrack.fragmentMovimientos"
-        android:label="fragment_movimientos"
-        tools:layout="@layout/fragment_movimientos" />
     <fragment
         android:id="@+id/employee_ruta"
         android:name="ptc24.st.sendtrack.employee_ruta"
@@ -20,4 +15,9 @@
         android:name="ptc24.st.sendtrack.employee_scanner"
         android:label="fragment_employee_scanner"
         tools:layout="@layout/fragment_employee_scanner" />
+    <fragment
+        android:id="@+id/paquetesRepartidor"
+        android:name="ptc24.st.sendtrack.paquetesRepartidor"
+        android:label="fragment_paquetes_repartidor"
+        tools:layout="@layout/fragment_paquetes_repartidor" />
 </navigation>

@@ -10,8 +10,8 @@
     app:cardUseCompatPadding="true"
     app:contentPadding="1dp"
 
-    android:layout_width="200dp"
-    android:layout_height="150sp"
+    android:layout_width="240dp"
+    android:layout_height="160sp"
     tools:context=".item_direccion">
 
 <LinearLayout

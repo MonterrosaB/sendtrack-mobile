@@ -5,11 +5,6 @@
     android:id="@+id/navigation_employeein"
     app:startDestination="@id/fragment_Paquetes">
     <fragment
-        android:id="@+id/fragment_Empleados"
-        android:name="ptc24.st.sendtrack.fragment_Empleados"
-        android:label="fragment__empleados"
-        tools:layout="@layout/fragment__empleados" />
-    <fragment
         android:id="@+id/fragmentMovimientos"
         android:name="ptc24.st.sendtrack.fragmentMovimientos"
         android:label="fragment_movimientos"

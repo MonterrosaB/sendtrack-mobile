@@ -3,16 +3,17 @@
 
     <item
         android:id="@+id/user_mis_paquetes"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:icon="@drawable/paquete"
+        android:title="Mis Paquetes" />
 
     <item
         android:id="@+id/user_enviarPaquete"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/cajamenu"
+        android:title="Nuevo Paquete" />
+
     <item
         android:id="@+id/user_direcciones"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/hogar"
+        android:title="Dirección" />
 
 </menu>

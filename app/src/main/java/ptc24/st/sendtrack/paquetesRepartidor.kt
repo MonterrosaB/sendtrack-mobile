@@ -54,7 +54,8 @@ class paquetesRepartidor : Fragment() {
 
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("SELECT IdPaquete, Peso, Alto, Ancho, Largo, Origen FROM PAQUETE")!!
+            val statement = objConexion?.prepareStatement("SELECT IdPaquete, Peso, Alto, Ancho, Largo, Distrito FROM PAQUETE " +
+                    "INNER JOIN DISTRITO ON Paquete.Origen = Distrito.IdDistrito")!!
 
             val resultSet = statement.executeQuery()
 
@@ -62,17 +63,17 @@ class paquetesRepartidor : Fragment() {
 
 
             while (resultSet.next()){
-                val Origen = resultSet.getString("Origen")
+                val Origen = resultSet.getString("Distrito")
                 val idPaquete = resultSet.getString("idPaquete")
                 val peso = resultSet.getString("peso")
-                val altura = resultSet.getString("altura")
+                val altura = resultSet.getString("Alto")
                 val ancho = resultSet.getString("ancho")
                 val largo = resultSet.getString("largo")
                 val paquete = dtPaqRepartidor(Origen ,idPaquete, peso, altura, ancho, largo)
 
                 dtPaqRepartidor.add(paquete)
             }
-            return mostrarPaquetes()
+            return dtPaqRepartidor
         }
 
         CoroutineScope(Dispatchers.IO).launch {

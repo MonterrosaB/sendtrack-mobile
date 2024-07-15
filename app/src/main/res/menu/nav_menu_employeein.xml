@@ -4,16 +4,11 @@
     <item
         android:id="@+id/fragmentMovimientos"
         android:icon="@drawable/registro"
-        android:title="Movimientos" />
+        android:title="Monvimientos" />
 
     <item
         android:id="@+id/fragment_Paquetes"
         android:icon="@drawable/paquete"
-        android:title="Paquetes" />
-
-    <item
-        android:id="@+id/fragment_Empleados"
-        android:icon="@drawable/trabajar"
-        android:title="Empleados" />
+        android:title="Paquetes"/>
 
 </menu>

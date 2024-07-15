@@ -2,8 +2,10 @@ package RVHDireccion
 
 import Modelo.ClaseConexion
 import Modelo.dtDireccion
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +21,29 @@ class AdaptadorDireccion(var Datos: List<dtDireccion>):RecyclerView.Adapter<View
 
     companion object variableDireccion{
         lateinit var  idDireccion: String
+    }
+
+    fun actualizarListaDespuesDeEditar(id: String, destinatario: String){
+        val index = Datos.indexOfFirst{it.idDireccion == id}
+        Datos[index].nombre = destinatario
+        notifyItemChanged(index)
+    }
+
+    fun actualizarEstado( uuid: String, nuevoDestinatario: String){
+        GlobalScope.launch(Dispatchers.IO){
+            //conexion
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            //2- Creo una variable que contenga un PrepareStatement
+            val updateCancion = objConexion?.prepareStatement("update Direccion set NombreCompleto = ? where IdDireccion = ?")!!
+            updateCancion.setString(1, nuevoDestinatario)
+            updateCancion.setString(2, uuid)
+            updateCancion.executeUpdate()
+
+            val commit = objConexion.prepareStatement("commit")
+            commit.executeUpdate()
+
+        }
     }
 
     override fun getItemCount() = Datos.size
@@ -52,6 +77,34 @@ class AdaptadorDireccion(var Datos: List<dtDireccion>):RecyclerView.Adapter<View
             val dialog = builder.create()
             dialog.show()
         }
+
+        holder.lbEditar.setOnClickListener{
+
+            val context = holder.itemView.context
+
+
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Actualizar")
+
+            //Agregarle un cuadro de texto
+            //donde el usuario va a escribir el nuevo nombre
+            val cuadroTexto = EditText(context)
+            cuadroTexto.setHint(item.nombre)
+            builder.setView(cuadroTexto)
+            builder.setNegativeButton("Cancelar"){
+                    dialog, wich ->
+                dialog.dismiss()
+            }
+            builder.setPositiveButton("Actualizar"){
+                    dialog, wich->
+                actualizarEstado(item.idDireccion, cuadroTexto.text.toString())
+                actualizarListaDespuesDeEditar(item.idDireccion, cuadroTexto.text.toString())
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+
     }
 
     private fun eliminarDatos(idDireccion:String, position: Int) {

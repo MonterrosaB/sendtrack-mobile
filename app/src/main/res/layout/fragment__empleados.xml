@@ -6,29 +6,27 @@
     tools:context=".fragment_Empleados">
 
     <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:background="@drawable/header"
-        android:id="@+id/header">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:fontFamily="sans-serif-black"
+            android:paddingLeft="50dp"
             android:text="Empleados"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            android:textColor="#FFFFFF"
+            android:textSize="25dp" />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMovimientos"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="654dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

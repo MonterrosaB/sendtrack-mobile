@@ -53,11 +53,7 @@ class fragment_Paquetes : Fragment() {
         fun mostrarPaquetes(): List<dtPaquetes>{
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement(
-                "select p.IdPaquete, p.Peso, p.Alto, p.Ancho, p.Largo\n" +
-                    "from Paquete p\n" +
-                    "join Almacen a on a.IdCargamento = p.IdPaquete\n" +
-                    "where a.IdCargamento = ? ")!!
+            val statement = objConexion?.prepareStatement("select * from Paquete")!!
 
             val resultSet = statement.executeQuery()
 
@@ -66,7 +62,7 @@ class fragment_Paquetes : Fragment() {
             while (resultSet.next()){
                 val idPaquete = resultSet.getString("idPaquete")
                 val peso = resultSet.getString("peso")
-                val altura = resultSet.getString("altura")
+                val altura = resultSet.getString("Alto")
                 val ancho = resultSet.getString("ancho")
                 val largo = resultSet.getString("largo")
 
@@ -75,7 +71,7 @@ class fragment_Paquetes : Fragment() {
                 dtPaquetes.add(paquete)
 
             }
-            return mostrarPaquetes()
+            return dtPaquetes
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -87,25 +83,5 @@ class fragment_Paquetes : Fragment() {
         }
 
         return root
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragment_Paquetes.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_Paquetes().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

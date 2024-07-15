@@ -15,26 +15,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [fragmentMovimientos.newInstance] factory method to
- * create an instance of this fragment.
- */
+
+
 class fragmentMovimientos : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -51,22 +41,20 @@ class fragmentMovimientos : Fragment() {
         fun mostrarMovimientos(): List<dtMovimientos>{
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("Select *  from Almacen")!!
+            val statement = objConexion?.prepareStatement("select * from registrocargamento RC " +
+                    "INNER JOIN ALMACEN A ON RC.IdPaquete = A.IdPaquete")!!
 
             val resultSet = statement.executeQuery()
 
-            val dtMovimientos = mutableListOf<dtMovimientos>()
+            val movimientos = mutableListOf<dtMovimientos>()
 
             while (resultSet.next()){
-                val idCargamento = resultSet.getString("idCargamento")
-                val horaEntrada = resultSet.getString("horaEntrada")
-                val movimiento = dtMovimientos(horaEntrada, idCargamento)
-
-                dtMovimientos.add(movimiento)
+                val idCargamento = resultSet.getString("IdCargamento")
+                val fecha = resultSet.getString("Fecha")
+                val movimiento = dtMovimientos(idCargamento, fecha)
+                movimientos.add(movimiento)
             }
-            return mostrarMovimientos()
-
-
+            return movimientos
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -76,26 +64,6 @@ class fragmentMovimientos : Fragment() {
                 rcvMovimientos.adapter = adapter
             }
         }
-
         return root
-    }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragmentMovimientos.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragmentMovimientos().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

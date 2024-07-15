@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fragment_movimientos"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/paquetesRepartidor"
+        android:icon="@drawable/paquete"
+        android:title="Paquetes" />
 
     <item
         android:id="@+id/employee_ruta"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/logisticadeentrega"
+        android:title="Ruta"/>
 
     <item
         android:id="@+id/employee_scanner"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/escaner"
+        android:title="Scanner" />
 </menu>

@@ -51,8 +51,8 @@ class Login : AppCompatActivity() {
         btnIniciarSesion.setOnClickListener {
 
             GlobalScope.launch(Dispatchers.IO) {
-                correoIngresado = "r@gmail.com"/*txtEmailLogin.text.toString()*/
-                val contrasenaIngresada = SHA256().hashSHA256("qwerty23A$"/*txtContrasenaLogin.text.toString()*/)
+                correoIngresado = txtEmailLogin.text.toString()
+                val contrasenaIngresada = SHA256().hashSHA256(txtContrasenaLogin.text.toString())
                 val objConexion = ClaseConexion().cadenaConexion()
                 var queryEjecutada: String? = null
 
@@ -64,9 +64,8 @@ class Login : AppCompatActivity() {
 
 
                 val rolEmpleado = objConexion?.prepareStatement(
-                    "SELECT E.IdRol, U.IdUsuario, R.Licencia FROM Usuario U " +
-                            "INNER JOIN Empleado E ON U.DUI = E.DUI " +
-                            "INNER JOIN Repartidor R ON E.DUI = R.Dui " +
+                        "SELECT E.IdRol, U.IdUsuario FROM Usuario U " +
+                                "INNER JOIN Empleado E ON U.DUI = E.DUI " +
                             "WHERE E.Email = ? AND U.Contrasena = ?"
                 )!!
                 rolEmpleado.setString(1, correoIngresado)
@@ -84,13 +83,13 @@ class Login : AppCompatActivity() {
                             idUser = resultadoEmpleado.getString("IdUsuario")
                             startActivity(intent)
                         } else if (idRol == 2) {
-                            val intent = Intent(this@Login, main_employee::class.java)
+                            val intent = Intent(this@Login, main_employeein::class.java)
                             idUser = resultadoEmpleado.getString("IdUsuario")
                             startActivity(intent)
                         } else if (idRol == 3) {
-
-                            idUser = resultadoEmpleado.getString("Licencia")
-
+                           val intent = Intent(this@Login, main_employee::class.java)
+                            idUser = resultadoEmpleado.getString("IdUsuario")
+                            startActivity(intent)
                         }
                     }
                 }
