@@ -10,4 +10,14 @@
         android:name="ptc24.st.sendtrack.fragmentMovimientos"
         android:label="fragment_movimientos"
         tools:layout="@layout/fragment_movimientos" />
+    <fragment
+        android:id="@+id/employee_ruta"
+        android:name="ptc24.st.sendtrack.employee_ruta"
+        android:label="fragment_employee_ruta"
+        tools:layout="@layout/fragment_employee_ruta" />
+    <fragment
+        android:id="@+id/employee_scanner"
+        android:name="ptc24.st.sendtrack.employee_scanner"
+        android:label="fragment_employee_scanner"
+        tools:layout="@layout/fragment_employee_scanner" />
 </navigation>

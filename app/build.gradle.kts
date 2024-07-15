@@ -46,10 +46,16 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
+    //Retrofit
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    implementation (libs.androidx.core.ktx)
+    implementation (libs.androidx.appcompat)
+    implementation (libs.material)
+    implementation ("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
     implementation(libs.androidx.constraintlayout)
