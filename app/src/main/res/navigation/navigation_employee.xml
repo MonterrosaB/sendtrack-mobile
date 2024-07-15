@@ -10,4 +10,9 @@
         android:name="ptc24.st.sendtrack.fragmentMovimientos"
         android:label="fragment_movimientos"
         tools:layout="@layout/fragment_movimientos" />
+    <fragment
+        android:id="@+id/paquetesRepartidor"
+        android:name="ptc24.st.sendtrack.paquetesRepartidor"
+        android:label="fragment_paquetes_repartidor"
+        tools:layout="@layout/fragment_paquetes_repartidor" />
 </navigation>
