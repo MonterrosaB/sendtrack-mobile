@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_employeein"
-    app:startDestination="@id/fragment_Paquetes">
+    app:startDestination="@id/fragmentMovimientos">
     <fragment
         android:id="@+id/fragmentMovimientos"
         android:name="ptc24.st.sendtrack.fragmentMovimientos"

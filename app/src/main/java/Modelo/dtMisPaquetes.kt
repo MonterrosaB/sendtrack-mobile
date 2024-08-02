@@ -1,6 +1,6 @@
 package Modelo
 
 data class dtMisPaquetes(
-    val idPaquete: String,
-    val fecha: String
+    var idPaquete: String,
+    var fecha: String
 )

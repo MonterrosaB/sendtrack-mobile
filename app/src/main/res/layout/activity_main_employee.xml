@@ -16,7 +16,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:backgroundTint="@color/yellow"
-
         app:menu="@menu/nav_menu_employee" />
 
     <fragment

@@ -37,8 +37,7 @@
         <activity
             android:name=".rastrearPaquetes"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="false">
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".main_employeein"
             android:windowSoftInputMode="adjustNothing"
@@ -53,7 +52,9 @@
             android:exported="false" />
         <activity
             android:name=".Registro"
-            android:exported="false" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".olvidasteContrasena"
             android:exported="false" />

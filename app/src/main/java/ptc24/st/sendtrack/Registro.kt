@@ -153,18 +153,19 @@ class Registro : AppCompatActivity() {
                             addUser.setString(4, usuario)
                             addUser.setString(5, contraEncript)
                             addUser.executeUpdate()
+
+                            binding.txtNombreR.text = null
+                            binding.txtTelefonoR.text = null
+                            binding.txtEmailR.text = null
+                            binding.txtUsuarioR.text = null
+                            binding.txtPasswordR.text = null
+                            binding.txtConfirmPasswordR.text = null
+
                         }
                         AlertDialog.Builder(this)
                             .setTitle("Registro completado")
-                            .setMessage("Se ha agregado un paquete")
+                            .setMessage("Tu cuenta ha sido registrada.")
                             .setPositiveButton("Okay"){ _,_ ->
-
-                                binding.txtNombreR.text = null
-                                binding.txtTelefonoR.text = null
-                                binding.txtEmailR.text = null
-                                binding.txtUsuarioR.text = null
-                                binding.txtPasswordR.text = null
-                                binding.txtConfirmPasswordR.text = null
                             }
                             .show()
                     } else {
