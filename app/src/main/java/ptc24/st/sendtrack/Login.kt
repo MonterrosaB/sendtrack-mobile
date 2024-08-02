@@ -41,59 +41,98 @@ class Login : AppCompatActivity() {
         }
 
 
-        val txtEmailLogin = findViewById<EditText>(R.id.txt)
+        val txtEmailLogin = findViewById<EditText>(R.id.txtEditEmail)
         val txtContrasenaLogin = findViewById<EditText>(R.id.txtContrasenaLogin)
         val lblOlvidasteContraLogin = findViewById<TextView>(R.id.lblOlvidasteContraLogin)
-        val ivConectarGoogleLogin = findViewById<ImageView>(R.id.ivConectarGoogleLogin)
+        //val ivConectarGoogleLogin = findViewById<ImageView>(R.id.ivConectarGoogleLogin)
         val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSesion)
+        val lbRegistro = findViewById<TextView>(R.id.lbRegister)
+
+        lbRegistro.setOnClickListener {
+            val registro = Intent(this,Registro::class.java)
+            startActivity(registro)
+        }
 
 
         btnIniciarSesion.setOnClickListener {
+            var hayErrores = false
+            if(txtEmailLogin.text.isEmpty()){
+                txtEmailLogin.error = "Campo obligatorio"
+                hayErrores = true
+            }else{
+                txtEmailLogin.error = null
+            }
+            if(txtContrasenaLogin.text.isEmpty()){
+                txtContrasenaLogin.error = "Campo obligatorio"
+                hayErrores = true
+            }else{
+                txtContrasenaLogin.error = null
+            }
+                if (!hayErrores){
+                    GlobalScope.launch(Dispatchers.IO) {
+                        correoIngresado = txtEmailLogin.text.toString()
+                        val contrasenaIngresada = SHA256().hashSHA256(txtContrasenaLogin.text.toString())
+                        val objConexion = ClaseConexion().cadenaConexion()
+                        var queryEjecutada: String? = null
 
-            GlobalScope.launch(Dispatchers.IO) {
-                correoIngresado = txtEmailLogin.text.toString()
-                val contrasenaIngresada = SHA256().hashSHA256(txtContrasenaLogin.text.toString())
-                val objConexion = ClaseConexion().cadenaConexion()
-                var queryEjecutada: String? = null
-
-                val rolCliente =
-                    objConexion?.prepareStatement("Select * from Cliente where Email = ? and Contrasena = ?")!!
-                rolCliente.setString(1, correoIngresado)
-                rolCliente.setString(2, contrasenaIngresada)
-                val resultadoCliente = rolCliente.executeQuery()
+                        val rolCliente =
+                            objConexion?.prepareStatement("Select * from Cliente where Email = ? and Contrasena = ?")!!
+                        rolCliente.setString(1, correoIngresado)
+                        rolCliente.setString(2, contrasenaIngresada)
+                        val resultadoCliente = rolCliente.executeQuery()
 
 
-                val rolEmpleado = objConexion?.prepareStatement(
-                        "SELECT E.IdRol, U.IdUsuario FROM Usuario U " +
-                                "INNER JOIN Empleado E ON U.DUI = E.DUI " +
-                            "WHERE E.Email = ? AND U.Contrasena = ?"
-                )!!
-                rolEmpleado.setString(1, correoIngresado)
-                rolEmpleado.setString(2, contrasenaIngresada)
-                val resultadoEmpleado = rolEmpleado.executeQuery()
+                        val rolEmpleado = objConexion?.prepareStatement(
+                            "SELECT E.IdRol, U.IdUsuario FROM Usuario U " +
+                                    "INNER JOIN Empleado E ON U.DUI = E.DUI " +
+                                    "WHERE E.Email = ? AND U.Contrasena = ?"
+                        )!!
+                        rolEmpleado.setString(1, correoIngresado)
+                        rolEmpleado.setString(2, contrasenaIngresada)
+                        val resultadoEmpleado = rolEmpleado.executeQuery()
 
-                    if (resultadoCliente.next() == true) {
-                        val intent = Intent(this@Login, main_user::class.java)
-                        idUser = resultadoCliente.getString("IdCliente")
-                        startActivity(intent)
-                    } else if (resultadoEmpleado.next() == true) {
-                        val idRol = resultadoEmpleado.getInt("IdRol")
-                        if (idRol == 1) {
-                            val intent = Intent(this@Login, main_admin::class.java)
-                            idUser = resultadoEmpleado.getString("IdUsuario")
+                        if (resultadoCliente.next() == true) {
+
+                            val intent = Intent(this@Login, main_user::class.java)
+                            idUser = resultadoCliente.getString("IdCliente")
                             startActivity(intent)
-                        } else if (idRol == 2) {
-                            val intent = Intent(this@Login, main_employeein::class.java)
-                            idUser = resultadoEmpleado.getString("IdUsuario")
-                            startActivity(intent)
-                        } else if (idRol == 3) {
-                           val intent = Intent(this@Login, main_employee::class.java)
-                            idUser = resultadoEmpleado.getString("IdUsuario")
-                            startActivity(intent)
+                            withContext(Dispatchers.Main){
+                                txtContrasenaLogin.text = null
+                                txtContrasenaLogin.text = null
+                            }
+                        } else if (resultadoEmpleado.next() == true) {
+                            val idRol = resultadoEmpleado.getInt("IdRol")
+                            if (idRol == 1) {
+                                val intent = Intent(this@Login, main_admin::class.java)
+                                idUser = resultadoEmpleado.getString("IdUsuario")
+                                startActivity(intent)
+                                withContext(Dispatchers.Main){
+                                    txtContrasenaLogin.text = null
+                                    txtContrasenaLogin.text = null
+                                }
+                            } else if (idRol == 2) {
+                                val intent = Intent(this@Login, main_employeein::class.java)
+                                idUser = resultadoEmpleado.getString("IdUsuario")
+                                startActivity(intent)
+                                withContext(Dispatchers.Main){
+                                    txtContrasenaLogin.text = null
+                                    txtContrasenaLogin.text = null
+                                }
+                            } else if (idRol == 3) {
+                                val intent = Intent(this@Login, main_employee::class.java)
+                                idUser = resultadoEmpleado.getString("IdUsuario")
+                                startActivity(intent)
+                                withContext(Dispatchers.Main){
+                                    txtContrasenaLogin.text = null
+                                    txtContrasenaLogin.text = null
+                                }
+                            }
                         }
                     }
                 }
-            }
+
+
+        }
         lblOlvidasteContraLogin.setOnClickListener {
             val intent = Intent(this@Login, olvidasteContrasena::class.java)
             startActivity(intent)

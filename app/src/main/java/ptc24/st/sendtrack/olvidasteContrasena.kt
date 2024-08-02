@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class olvidasteContrasena : AppCompatActivity() {
 
@@ -45,10 +46,6 @@ class olvidasteContrasena : AppCompatActivity() {
             Correo = txtCorreoolvide.text.toString()
             if (Correo.isEmpty()){
                 txtCorreoolvide.error = "Ingrese el correo"
-                hayErrores = true
-            }
-            else if(!Correo.matches(Regex("[A-Za-z0-9+_.-]+@[a-z]+[.][a-z]+"))){
-                txtCorreoolvide.error = "El correo no tiene un formato valido"
                 hayErrores = true
             }
             else{
@@ -83,14 +80,16 @@ class olvidasteContrasena : AppCompatActivity() {
 
                     if (queryEjecutada != null) {
                         //si la query no es null enviamos el codigo de recuperacion al correo ingresado
-                        Looper.prepare()
-                        enviarCorreo(txtCorreoolvide.text.toString(), "Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
-                        val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)
-                        intent.putExtra("queryEjecutada", queryEjecutada)
-                        startActivity(intent)
+                        withContext(Dispatchers.Main){
+                            enviarCorreo(txtCorreoolvide.text.toString(), "Recuperacion de contraseña", "Este es tu codigo de recuperacion $codigoRecuperacion")
+                            val intent = Intent(this@olvidasteContrasena, verificacionCodigoCorreo::class.java)
+                            intent.putExtra("queryEjecutada", queryEjecutada)
+                            startActivity(intent)
+                        }
                     } else {
-                        Looper.prepare()
+                        withContext(Dispatchers.Main){
                         Toast.makeText(this@olvidasteContrasena, "Correo no registrado", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
 
