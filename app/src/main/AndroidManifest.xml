@@ -17,8 +17,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA"/>
-
-
+    
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -32,7 +31,11 @@
         <activity
             android:name=".splashScreen"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".rastrearPaquetes"
@@ -41,9 +44,7 @@
         <activity
             android:name=".main_employeein"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="true">
-
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".cambioContrasena"
             android:exported="false" />
@@ -52,9 +53,7 @@
             android:exported="false" />
         <activity
             android:name=".Registro"
-            android:exported="true">
-
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".olvidasteContrasena"
             android:exported="false" />
@@ -65,7 +64,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity
             android:name=".item_direccion"
             android:exported="false" />
@@ -75,13 +73,7 @@
         <activity
             android:name=".main_employee"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".main_admin"
             android:windowSoftInputMode="adjustNothing"
