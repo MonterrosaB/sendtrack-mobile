@@ -6,7 +6,16 @@ import Modelo.dtDistrito
 import Modelo.dtMunicipio
 import Modelo.dtSeguro
 import RVHDireccion.AdaptadorDireccion
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,18 +25,29 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.qrcode.encoder.QRCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Request
 import ptc24.st.sendtrack.databinding.FragmentUserDireccionesBinding
 import ptc24.st.sendtrack.databinding.FragmentUserEnviarPaqueteBinding
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.reflect.Array
 import java.sql.Date
 import java.util.UUID
 
@@ -38,6 +58,7 @@ private var _binding: FragmentUserEnviarPaqueteBinding? = null
 private val binding get() = _binding!!
     private lateinit var idSeguro: String
     private lateinit var idDistrito: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +75,6 @@ private val binding get() = _binding!!
         val root = binding.root
 
         //Elementos
-        val txtAlto = root.findViewById<EditText>(R.id.txtEditAlto)
-        val txtAncho = root.findViewById<EditText>(R.id.txtEditAncho)
-        val txtLargo = root.findViewById<EditText>(R.id.txtEditLargo)
-        val txtPeso = root.findViewById<EditText>(R.id.txtEditPeso)
         val spnSeguro = binding.cbSeguro
         val spnOrigen = binding.cbOrigen
         var contenido: Int
@@ -68,6 +85,12 @@ private val binding get() = _binding!!
         val btnAgregarP = root.findViewById<Button>(R.id.btnAgregarPaquete)
 
         rcvDireccion.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        if(checkPermission()){
+            Toast.makeText(requireContext(), "Permiso", Toast.LENGTH_SHORT).show()
+        }else{
+            requestPermisson()
+        }
 
         fun mostrarDirecciones(): List<dtDireccion>{
 
@@ -197,7 +220,36 @@ private val binding get() = _binding!!
         }
 
        btnAgregarP.setOnClickListener{
-           try {
+
+           val prueba = "Hola Mundo!"
+
+          prueba.trim()
+
+           if (prueba.isEmpty()){
+               Toast.makeText(requireContext(), "Ingresar datos", Toast.LENGTH_SHORT).show()
+           }else{
+               val writer = QRCodeWriter()
+               try {
+                   val bitMatrix = writer.encode(prueba, BarcodeFormat.QR_CODE, 100, 100)
+                   val width = bitMatrix.width
+                   val height = bitMatrix.height
+
+                   val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                   for(x in 0 until width){
+                       for(y in 0 until height) {
+                           bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                       }
+                   }
+                   //mostrar
+
+                   generarPDF(bmp)
+
+               }catch (e: WriterException){
+                    e.printStackTrace()
+               }
+           }
+
+           /*try {
 
                val pesoP = binding.txtEditPeso.text.toString()
                val altoP = binding.txtEditAlto.text.toString()
@@ -300,9 +352,65 @@ private val binding get() = _binding!!
 
            }catch (e: Exception){
                println(e)
-           }
+           }*/
        }
+
         return root
+    }
+
+    private fun generarPDF(qr: Bitmap) {
+        var pdfDocument = PdfDocument()
+        var paint = Paint()
+
+        var paginaInfo = PdfDocument.PageInfo.Builder(816, 1054, 1).create()
+        var pagina1 = pdfDocument.startPage(paginaInfo)
+
+        var canvas = pagina1.canvas
+
+        val img = qr
+
+        var bitmapEscala = Bitmap.createScaledBitmap(qr, 80, 80, false)
+        canvas.drawBitmap(bitmapEscala, 368f, 20f, paint)
+
+        pdfDocument.finishPage(pagina1)
+
+        val file = File(Environment.getExternalStorageDirectory(), "ArchivoPDF")
+        try {
+            pdfDocument.writeTo(FileOutputStream(file))
+            Toast.makeText(requireContext(), "Se creo el pdf", Toast.LENGTH_SHORT).show()
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+        pdfDocument.close()
+    }
+
+
+    private fun checkPermission(): Boolean{
+        val permission1 = ContextCompat.checkSelfPermission(requireActivity(), WRITE_EXTERNAL_STORAGE)
+        val permission2 = ContextCompat.checkSelfPermission(requireActivity(), READ_EXTERNAL_STORAGE)
+        return permission1 == PackageManager.PERMISSION_GRANTED && permission2 == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestPermisson(){
+        ActivityCompat.requestPermissions(
+            requireActivity(), arrayOf(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
+            200
+        )
+    }
+
+    fun onRequestPermissonResult(requestCode: Int, permissons: kotlin.Array<String>, grantResult: IntArray){
+        if (requestCode == 200){
+            if (grantResult.size>0){
+                val writeStorage = grantResult[0] == PackageManager.PERMISSION_GRANTED
+                val readStorage = grantResult[1] == PackageManager.PERMISSION_GRANTED
+
+                if (writeStorage && readStorage){
+                    Toast.makeText(requireContext(), "Permisos concedidos", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(requireContext(), "Permisos rechazados", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
 }

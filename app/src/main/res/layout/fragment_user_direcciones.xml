@@ -160,7 +160,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <fragment
-            android:id="@+id/map"
+            android:id="@+id/mapND"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

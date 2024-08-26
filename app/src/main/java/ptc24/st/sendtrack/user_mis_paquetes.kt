@@ -57,7 +57,7 @@ class user_mis_paquetes : Fragment() {
                     "INNER JOIN Direccion D ON D.IdDireccion = P.IdDireccion " +
                     "where idCliente = ?")!!
 
-            statement.setString(1, Login.variablesGlobalesLogin.idUser)
+            statement.setString(1, Login.idUser)
 
             val resultSet = statement.executeQuery()
 

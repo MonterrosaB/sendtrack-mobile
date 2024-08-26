@@ -8,15 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-
-
 
 class fragmentMovimientos : Fragment() {
     // TODO: Rename and change types of parameters
@@ -36,6 +34,7 @@ class fragmentMovimientos : Fragment() {
         val root = inflater.inflate(R.layout.fragment_movimientos, container, false)
 
         val rcvMovimientos = root.findViewById<RecyclerView>(R.id.rcvMovimientos)
+        val btnIngresarCargamentos = root.findViewById<Button>(R.id.btnIngresarCargamento)
         rcvMovimientos.layoutManager = LinearLayoutManager(requireContext())
 
         fun mostrarMovimientos(): List<dtMovimientos>{
@@ -56,12 +55,32 @@ class fragmentMovimientos : Fragment() {
             }
             return movimientos
         }
-
         CoroutineScope(Dispatchers.IO).launch {
             val movimientosDB = mostrarMovimientos()
             withContext(Dispatchers.Main){
                 val adapter = AdaptadorMovimientos(movimientosDB)
                 rcvMovimientos.adapter = adapter
+            }
+        }
+
+        btnIngresarCargamentos.setOnClickListener {
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val objConexion  = ClaseConexion().cadenaConexion()
+
+                //crear variable que contenga un PrepareStatment
+                val addCargamentoAlmacen = objConexion?.prepareStatement("Insert into Almacen (IdPaquete, IdSeccion, IdUsuario) " +
+                        "SELECT IdPaquete, ?, ? FROM RegistroCargamento WHERE IdCargamento = ? ")!!
+                TODO("Hacer FORM de seccion y obtener el ID")
+                //addCargamentoAlmacen.setString(1, )
+                //addCargamentoAlmacen.setInt(2, )
+                addCargamentoAlmacen.setString(3, Login.idUser)
+                addCargamentoAlmacen.executeUpdate()
+
+                val nuevosIngresos = mostrarMovimientos()
+                withContext(Dispatchers.Main){
+                    (rcvMovimientos.adapter as? AdaptadorMovimientos)?.actualizarDatos(nuevosIngresos)
+                }
             }
         }
         return root
