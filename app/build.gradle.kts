@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -47,16 +48,24 @@ android {
 dependencies {
 
     //Retrofit
-
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
     implementation (libs.androidx.core.ktx)
     implementation (libs.androidx.appcompat)
     implementation (libs.material)
+
+    //Oracle
     implementation ("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+
+
+    //QR
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 
 
     implementation(libs.androidx.constraintlayout)

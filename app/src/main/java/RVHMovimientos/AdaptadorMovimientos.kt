@@ -15,11 +15,14 @@ class AdaptadorMovimientos(var Datos: List<dtMovimientos>): RecyclerView.Adapter
 
     override fun getItemCount() = Datos.size
 
+    fun actualizarDatos(nuevaLista: List<dtMovimientos>){
+        Datos = nuevaLista
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: ViewHolderMovimientos, position: Int) {
         val itemMovimientos = Datos[position]
         holder.lblidCodigoCargamento.text = itemMovimientos.IdCargamento
         holder.lblHoraEntrada.text = itemMovimientos.horaEntrada
     }
-
 }

@@ -24,12 +24,16 @@
 
     </RelativeLayout>
 
+
+
+
+
     <fragment
-        android:id="@+id/mapR"
+        android:id="@+id/mapRutas"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btnRuta"

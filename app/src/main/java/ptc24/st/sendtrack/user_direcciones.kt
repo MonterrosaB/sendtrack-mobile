@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -100,9 +101,11 @@ private lateinit var map: GoogleMap
 
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.createStatement()
+            val statement = objConexion?.prepareStatement("SELECT * FROM Distrito where IdMunicipio = ?")!!
 
-            val resultSet = statement?.executeQuery("SELECT * FROM Distrito")!!
+            statement.setString(1,"2")
+
+            val resultSet = statement.executeQuery()
 
             val listadoDistritos = mutableListOf<dtDistrito>()
 
@@ -230,6 +233,16 @@ private lateinit var map: GoogleMap
 
         GlobalScope.launch(Dispatchers.IO) {
             val listaMunicipio = getMunicipio()
+            cbDistrito.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
             val listaDistrito = getDistrito()
 
             val municipio = listaMunicipio.map { it.municipio }
@@ -273,8 +286,7 @@ private lateinit var map: GoogleMap
     }
 
     private fun CreateFragment(){
-        //GlobalScope.launch(Dispatchers.Main) {  }
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapND) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
