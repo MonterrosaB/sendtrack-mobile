@@ -149,7 +149,7 @@ private val binding get() = _binding!!
             val direccionesDB = mostrarDirecciones()
 
              val listaSeguro = getSeguro()
-            val tipoSeguro = listaSeguro.map { it.tipoSeguro }
+            val tipoSeguro = listaSeguro.map { "Pecio:" + it.precio+ "$" + " Valor asegurado: " + it.tipoSeguro + "$"}
 
             val listaDistrito = getDistrito()
             val distrito = listaDistrito.map { it.distrito }
@@ -256,7 +256,7 @@ private val binding get() = _binding!!
                }
 
                if (anchoP.toDouble()>=80){
-                   txtAncho.error = "El largo maximo es de 80cm"
+                   txtAncho.error = "El ancho maximo es de 80cm"
                    hayErrores = true
                }else {
                    txtAncho.error = null
@@ -264,7 +264,7 @@ private val binding get() = _binding!!
 
 
 
-                   if (hayErrores == false){
+                   if (hayErrores == false && AdaptadorDireccion.variableDireccion.idDireccion.isNotEmpty()){
                        CoroutineScope(Dispatchers.IO).launch {
                            val objConexion = ClaseConexion().cadenaConexion()
 
@@ -285,13 +285,16 @@ private val binding get() = _binding!!
 
                            val nuevaDireccion = mostrarDirecciones()
                            withContext(Dispatchers.Main){
-                               limpiarCampos()
+                               binding.txtEditPeso.text = null
+                               binding.txtEditAlto.text = null
+                               binding.txtEditAncho.text = null
+                               binding.txtEditLargo.text = null
                                (rcvDireccion.adapter as? AdaptadorDireccion)?.actualizarDirecciones(nuevaDireccion)
                        }
                        }
                    }
                    else{
-                       Toast.makeText(requireContext(), "Verifica los campos (Obligatorios y solo números)", Toast.LENGTH_SHORT).show()
+                       Toast.makeText(requireContext(), "Verifica los campos", Toast.LENGTH_SHORT).show()
                    }
 
 
@@ -302,10 +305,4 @@ private val binding get() = _binding!!
         return root
     }
 
-    private fun limpiarCampos() {
-        binding.txtEditPeso.text = null
-        binding.txtEditAlto.text = null
-        binding.txtEditAncho.text = null
-        binding.txtEditAncho.text = null
-    }
 }

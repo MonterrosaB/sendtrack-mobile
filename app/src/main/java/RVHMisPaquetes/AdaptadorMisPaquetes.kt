@@ -13,6 +13,8 @@ class AdaptadorMisPaquetes(var Datos: List<dtMisPaquetes>):RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolderMisPaquetes, position: Int) {
+        val item = Datos[position]
+        holder.lbPaqueteID.text = item.idPaquete
     }
 
     override fun getItemCount() = Datos.size
