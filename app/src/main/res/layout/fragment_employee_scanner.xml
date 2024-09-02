@@ -30,45 +30,27 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/textResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtInputCodigoPaqueteR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="15dp"
-            android:hint="Código Paquete"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:boxCornerRadiusTopStart="45dp"
-            app:boxCornerRadiusTopEnd="45dp"
-            app:boxCornerRadiusBottomStart="45dp"
-            app:boxCornerRadiusBottomEnd="45dp"
-            app:boxBackgroundColor="@color/yellow"
-            android:textColorHint="@color/blue"
-            app:hintTextColor="@color/blue"
-            app:boxStrokeWidth="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtEditCodigoPaqueteR"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="392dp"
+            android:layout_height="400dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSiguiente"
+            android:id="@+id/btnScanear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:text="Siguiente"
-            android:backgroundTint="@color/blue"/>
+            android:backgroundTint="@color/blue"
+            android:text="Siguiente" />
 
     </LinearLayout>
 

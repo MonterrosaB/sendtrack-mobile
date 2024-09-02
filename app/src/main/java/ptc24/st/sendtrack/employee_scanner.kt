@@ -1,65 +1,71 @@
 package ptc24.st.sendtrack
 
+import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.enableSavedStateHandles
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import ptc24.st.sendtrack.databinding.ActivityMainEmployeeBinding
 import ptc24.st.sendtrack.databinding.FragmentEmployeeScannerBinding
 import java.util.UUID
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Bundle
+import android.util.Size
+import android.widget.Button
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.google.mlkit.vision.barcode.Barcode
+import com.google.mlkit.vision.barcode.BarcodeScanner
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 
 class employee_scanner : Fragment() {
 
+    val codigo_opcion_galeria = 102
+    val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
-    private lateinit var binding: FragmentEmployeeScannerBinding
+
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var previewView: PreviewView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         arguments?.let {
 
         }
     }
 
-    private fun initView() {
-        binding.root.setOnClickListener{
-            checkPermissionCamera(this)
-        }
-    }
 
-    private fun checkPermissionCamera(employeeScanner: employee_scanner) {
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED ){
-            showCamera()
 
-        }
-        else if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)){
-            Toast.makeText(requireContext(), "Camara permiso requerido", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE)
-
-        }
-
-    }
 
 
     override fun onCreateView(
@@ -69,57 +75,112 @@ class employee_scanner : Fragment() {
         // Inflate the layout for this fragment
         val root =  inflater.inflate(R.layout.fragment_employee_scanner, container, false)
 
-        val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()){
-                isGranted: Boolean ->
-                if (isGranted){
-                    showCamera()
 
-                }
-                else{
+        //1-Llamo al boton y a la vista previa
+        val btnEscanear = root.findViewById<Button>(R.id.btnScanear)
+        previewView = root.findViewById(R.id.previewView)
 
-                }
-            }
+        btnEscanear.setOnClickListener {
 
+                startCamera()
+
+        }
 
 
         return root
     }
 
-    private val scanLauncher =
-        registerForActivityResult(ScanContract()){
-            result: ScanIntentResult ->
-            {
-                if (result.contents == null){
-                    Toast.makeText(requireContext(), "Camara permiso requerido", Toast.LENGTH_SHORT).show()
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+            cameraProvider = cameraProviderFuture.get()
 
-                }
-                else{
-                    setResult(result.contents)
-
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            }
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setTargetResolution(Size(1280, 720))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also {
+                    it.setAnalyzer(ContextCompat.getMainExecutor(requireContext()), { imageProxy ->
+                        processImageProxy(imageProxy)
+                    })
+                }
+
+            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    //4- Metodo para leer lo del código QR
+    @OptIn(ExperimentalGetImage::class)
+    private fun processImageProxy(imageProxy: ImageProxy) {
+        val mediaImage = imageProxy.image
+        if (mediaImage != null) {
+            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+            val options = BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+                .build()
+
+            val scanner: BarcodeScanner = BarcodeScanning.getClient(options)
+
+            scanner.process(image)
+                .addOnSuccessListener { barcodes ->
+                    for (barcode in barcodes) {
+                        val rawValue = barcode.rawValue
+                        println("El código QR escaneado es: $rawValue")
+                        Toast.makeText(
+                            requireContext(),
+                            "El código QR escaneado es: $rawValue",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Manejar el código QR escaneado
+                        // Puede actualizar la UI o iniciar alguna acción aquí
+                        //Yo lo muestro en pantalla con un Toast como ejemplo
+                    }
+                }
+                .addOnFailureListener {
+                    println("Error al escanear el código QR: $it")
+                }
+                .addOnCompleteListener {
+                    imageProxy.close()
+                }
         }
-
-
-    private fun setResult(string: String){
-        binding.textResult.text = string
     }
 
-
-    private fun showCamera() {
-        val options = ScanOptions()
-        options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-        options.setPrompt("Scan QR code")
-        options.setCameraId(0)
-        options.setBeepEnabled(false)
-        options.setBarcodeImageEnabled(true)
-        options.setOrientationLocked(false)
-
-        scanLauncher.launch(options)
-
+    //5- Comprobar que todos los permisos estén aceptados
+    /*private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    }
+
+    //Esta función creo que no afecta en nada (es del repositorio anterior de subir imagenes)
+    private fun pedirPermisoCamara() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            )
+        ) {
+            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
+        } else {
+            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
+            ActivityCompat.requestPermissions(
+                this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE
+            )
+        }
+    }*/
+
+
 }
 
 
