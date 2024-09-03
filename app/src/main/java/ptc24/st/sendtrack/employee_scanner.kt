@@ -1,35 +1,15 @@
 package ptc24.st.sendtrack
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.enableSavedStateHandles
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
-import ptc24.st.sendtrack.databinding.ActivityMainEmployeeBinding
-import ptc24.st.sendtrack.databinding.FragmentEmployeeScannerBinding
-import java.util.UUID
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
@@ -37,10 +17,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -93,27 +70,45 @@ class employee_scanner : Fragment() {
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
+            // Get the camera provider
+            val cameraProvider = cameraProviderFuture.get()
 
+            // Preview Use Case
             val preview = Preview.Builder()
                 .build()
-                .also {
-                    it.setSurfaceProvider(previewView.surfaceProvider)
+                .also { previewUseCase ->
+                    previewUseCase.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
+            // ImageAnalysis Use Case
             val imageAnalysis = ImageAnalysis.Builder()
-                .setTargetResolution(Size(1280, 720))
+                .setTargetResolution(Size(640, 480))  // Lower resolution to increase compatibility
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
-                .also {
-                    it.setAnalyzer(ContextCompat.getMainExecutor(requireContext()), { imageProxy ->
-                        processImageProxy(imageProxy)
-                    })
+                .also { analysisUseCase ->
+                    analysisUseCase.setAnalyzer(
+                        ContextCompat.getMainExecutor(requireContext()),
+                        { imageProxy ->
+                            processImageProxy(imageProxy)
+                        }
+                    )
                 }
 
-            cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+            try {
+                // Unbind use cases before binding new ones
+                cameraProvider.unbindAll()
+
+                // Bind the selected use cases to the camera
+                cameraProvider.bindToLifecycle(
+                    this,
+                    CameraSelector.DEFAULT_BACK_CAMERA,
+                    preview,
+                    imageAnalysis
+                )
+
+            } catch (exc: Exception) {
+                Log.e("CameraXApp", "Use case binding failed", exc)
+            }
 
         }, ContextCompat.getMainExecutor(requireContext()))
     }
@@ -132,17 +127,18 @@ class employee_scanner : Fragment() {
 
             scanner.process(image)
                 .addOnSuccessListener { barcodes ->
-                    for (barcode in barcodes) {
-                        val rawValue = barcode.rawValue
-                        println("El código QR escaneado es: $rawValue")
-                        Toast.makeText(
-                            requireContext(),
-                            "El código QR escaneado es: $rawValue",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Manejar el código QR escaneado
-                        // Puede actualizar la UI o iniciar alguna acción aquí
-                        //Yo lo muestro en pantalla con un Toast como ejemplo
+                    if (isAdded && activity != null) {
+                        for (barcode in barcodes) {
+                            val rawValue = barcode.rawValue
+                            println("El código QR escaneado es: $rawValue")
+                            Toast.makeText(
+                                requireActivity(),  // Or use `activity!!` if you are certain the activity is not null
+                                "El código QR escaneado es: $rawValue",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            // Manejar el código QR escaneado
+                            // Puede actualizar la UI o iniciar alguna acción aquí
+                        }
                     }
                 }
                 .addOnFailureListener {
@@ -153,7 +149,6 @@ class employee_scanner : Fragment() {
                 }
         }
     }
-
     //5- Comprobar que todos los permisos estén aceptados
     /*private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
