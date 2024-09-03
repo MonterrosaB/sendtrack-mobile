@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996689912910",
+    "project_id": "sendntrack-7b5fc",
+    "storage_bucket": "sendntrack-7b5fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996689912910:android:82919b6284416930c10f1f",
+        "android_client_info": {
+          "package_name": "ptc24.st.sendtrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBdBIgYsu-A8hHuKB-Fo_Fw_34mv2sQ8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

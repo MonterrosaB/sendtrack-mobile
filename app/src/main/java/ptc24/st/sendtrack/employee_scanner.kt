@@ -1,31 +1,37 @@
 package ptc24.st.sendtrack
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Bundle
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.os.Bundle
+import android.util.Log
+import android.util.Size
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
+import androidx.annotation.OptIn
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import ptc24.st.sendtrack.databinding.FragmentEmployeeScannerBinding
-import java.util.UUID
+import com.google.mlkit.vision.barcode.Barcode
+import com.google.mlkit.vision.barcode.BarcodeScanner
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 
 class employee_scanner : Fragment() {
 
-    lateinit var txtCodigo: EditText
+    val codigo_opcion_galeria = 102
     val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
-    val STORAGE_REQUEST_CODE = 1
-    val codigo_opcion_galeria = 102
+
+    private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var previewView: PreviewView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,49 +41,128 @@ class employee_scanner : Fragment() {
         }
     }
 
+
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_employee_scanner, container, false)
-    }
+        val root =  inflater.inflate(R.layout.fragment_employee_scanner, container, false)
 
-    @SuppressLint("SuspiciousIndentation")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    val btnSiguiente = view.findViewById<Button>(R.id.btnSiguiente)
+        //1-Llamo al boton y a la vista previa
+        val btnEscanear = root.findViewById<Button>(R.id.btnScanear)
+        previewView = root.findViewById(R.id.previewView)
 
-        btnSiguiente.setOnClickListener {
-            //Al darle clic al botón de la galeria pedimos los permisos primero
-            checkStoragePermission()
+        btnEscanear.setOnClickListener {
+
+                startCamera()
+
         }
 
 
-
+        return root
     }
 
-    private fun checkStoragePermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            //El permiso no está aceptado, entonces se lo pedimos
-            pedirPermisoCamara()
-        } else {
-            //El permiso ya está aceptado
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, codigo_opcion_tomar_foto)
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+            // Get the camera provider
+            val cameraProvider = cameraProviderFuture.get()
+
+            // Preview Use Case
+            val preview = Preview.Builder()
+                .build()
+                .also { previewUseCase ->
+                    previewUseCase.setSurfaceProvider(previewView.surfaceProvider)
+                }
+
+            // ImageAnalysis Use Case
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setTargetResolution(Size(640, 480))  // Lower resolution to increase compatibility
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also { analysisUseCase ->
+                    analysisUseCase.setAnalyzer(
+                        ContextCompat.getMainExecutor(requireContext()),
+                        { imageProxy ->
+                            processImageProxy(imageProxy)
+                        }
+                    )
+                }
+
+            try {
+                // Unbind use cases before binding new ones
+                cameraProvider.unbindAll()
+
+                // Bind the selected use cases to the camera
+                cameraProvider.bindToLifecycle(
+                    this,
+                    CameraSelector.DEFAULT_BACK_CAMERA,
+                    preview,
+                    imageAnalysis
+                )
+
+            } catch (exc: Exception) {
+                Log.e("CameraXApp", "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    //4- Metodo para leer lo del código QR
+    @OptIn(ExperimentalGetImage::class)
+    private fun processImageProxy(imageProxy: ImageProxy) {
+        val mediaImage = imageProxy.image
+        if (mediaImage != null) {
+            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+            val options = BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+                .build()
+
+            val scanner: BarcodeScanner = BarcodeScanning.getClient(options)
+
+            scanner.process(image)
+                .addOnSuccessListener { barcodes ->
+                    if (isAdded && activity != null) {
+                        for (barcode in barcodes) {
+                            val rawValue = barcode.rawValue
+                            println("El código QR escaneado es: $rawValue")
+                            Toast.makeText(
+                                requireActivity(),  // Or use `activity!!` if you are certain the activity is not null
+                                "El código QR escaneado es: $rawValue",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            // Manejar el código QR escaneado
+                            // Puede actualizar la UI o iniciar alguna acción aquí
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    println("Error al escanear el código QR: $it")
+                }
+                .addOnCompleteListener {
+                    imageProxy.close()
+                }
         }
     }
+    //5- Comprobar que todos los permisos estén aceptados
+    /*private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
 
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    }
 
-
+    //Esta función creo que no afecta en nada (es del repositorio anterior de subir imagenes)
     private fun pedirPermisoCamara() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
+                requireContext(),
                 android.Manifest.permission.CAMERA
             )
         ) {
@@ -85,63 +170,10 @@ class employee_scanner : Fragment() {
         } else {
             //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
             ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE
+                this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE
             )
         }
-    }
-
-    private fun pedirPermisoAlmacenamiento() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        ) {
-            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
-        } else {
-            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                STORAGE_REQUEST_CODE
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
-        when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    //El permiso está aceptado, entonces Abrimos la camara:
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, codigo_opcion_tomar_foto)
-                } else {
-                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
-                    Toast.makeText(requireContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-
-            STORAGE_REQUEST_CODE -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    //El permiso está aceptado, entonces Abrimos la galeria
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, codigo_opcion_galeria)
-                } else {
-                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
-                    Toast.makeText(requireContext(), "Permiso de almacenamiento denegado", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-
-            else -> {
-                // Este else lo dejamos por si sale un permiso que no teníamos controlado.
-            }
-        }
-    }
+    }*/
 
 
 }
