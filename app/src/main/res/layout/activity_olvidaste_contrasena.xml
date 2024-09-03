@@ -88,7 +88,7 @@
         app:layout_constraintVertical_bias="0.686" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/lbNPaquetes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Olvido su contraseña"

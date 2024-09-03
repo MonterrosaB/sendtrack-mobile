@@ -102,7 +102,7 @@ private val binding get() = _binding!!
                      "INNER JOIN Municipio M ON DI.IdMunicipio = M.IdMunicipio " +
                      "WHERE D.IdCliente = ?")!!
 
-            statement.setString(1, Login.variablesGlobalesLogin.idUser)
+            statement.setString(1, Login.idUser)
 
             val resultSet = statement.executeQuery()
 

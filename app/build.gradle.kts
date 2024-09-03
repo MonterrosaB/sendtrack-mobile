@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -22,6 +26,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        val inputStream = FileInputStream("local.properties")
+        properties.load(inputStream)
+
+        buildConfigField("String","MY_API","\"${properties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -42,16 +52,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
-    //Librerias para escanear QR
-    implementation("com.google.mlkit:barcode-scanning:17.0.0")
-    implementation("androidx.camera:camera-camera2:1.1.0-alpha05")
-    implementation("androidx.camera:camera-lifecycle:1.1.0-alpha05")
-    implementation("androidx.camera:camera-view:1.0.0-alpha25")
 
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -60,10 +65,12 @@ dependencies {
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
 
-    implementation (libs.androidx.core.ktx)
-    implementation (libs.androidx.appcompat)
-    implementation (libs.material)
+
+    implementation ("com.google.firebase:firebase-database:21.0.0")
+
+
 
     //Oracle
     implementation ("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
@@ -73,7 +80,9 @@ dependencies {
     //QR
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 
-
+    implementation (libs.androidx.core.ktx)
+    implementation (libs.androidx.appcompat)
+    implementation (libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -84,10 +93,11 @@ dependencies {
     implementation(files("libs\\additionnal.jar"))
     implementation(files("libs\\mail.jar"))
     implementation(libs.androidx.contentpager)
-    implementation(libs.androidx.camera.view)
-    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.play.services.location)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     implementation("com.google.android.material:material:1.13.0-alpha03")
 }

@@ -24,5 +24,8 @@ class AdaptadorMovimientos(var Datos: List<dtMovimientos>): RecyclerView.Adapter
         val itemMovimientos = Datos[position]
         holder.lblidCodigoCargamento.text = itemMovimientos.IdCargamento
         holder.lblHoraEntrada.text = itemMovimientos.horaEntrada
+        holder.lbNumeroPaquetes.text = "N° Paquetes: " + itemMovimientos.numPaquetes
+        holder.lbSeccion.text = itemMovimientos.seccion
+
     }
 }

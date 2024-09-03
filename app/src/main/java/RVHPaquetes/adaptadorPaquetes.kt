@@ -18,10 +18,9 @@ class adaptadorPaquetes(var Datos: List<dtPaquetes>): RecyclerView.Adapter<ViewH
     override fun onBindViewHolder(holder: ViewHolderPaquetes, position: Int) {
         val itemPaquetes = Datos[position]
         holder.lblIdPaquete.text = itemPaquetes.idPaquete
-        holder.lblPesoPaquete.text = itemPaquetes.peso
-        holder.lblAlturaPaquete.text = itemPaquetes.altura
-        holder.lblAnchoPaquete.text = itemPaquetes.ancho
-        holder.lblLargoPaquete.text = itemPaquetes.largo
+        holder.lbSeccion.text = itemPaquetes.seccion
+        holder.lbCargamento.text = itemPaquetes.cargamento
+        holder.lbPeso.text = itemPaquetes.peso
 
     }
 }
