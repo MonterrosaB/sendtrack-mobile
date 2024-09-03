@@ -25,7 +25,7 @@ class AdaptadorEmpleados(var Datos: List<dtEmpleados>):RecyclerView.Adapter<View
     override fun onBindViewHolder(holder: ViewHolderEmpleados, position: Int) {
         //Informacion a la card
         val item = Datos[position]
-        holder.lbNombre.text = item.nombre
+        holder.lbNombre.text = item.nombre + " " +item.apellidoPa
         holder.lbCorreo.text = item.Email
         holder.lbTelefono.text = item.Telefono
         holder.lbRol.text = item.Rol.toString()

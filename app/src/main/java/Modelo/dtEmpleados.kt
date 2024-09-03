@@ -8,8 +8,10 @@ data class dtEmpleados(
     val Email: String,
     val Salario: Double,
     val FechaNa: String,
-    val Rol: Int,
-    val Sucursal: Int,
+    val Rol: String,
+    val idRol: Int,
+    val Sucursal: String,
+    val idSucursal: Int,
     val Masculino: Int,
     val Estado: Int,
     val Telefono: String

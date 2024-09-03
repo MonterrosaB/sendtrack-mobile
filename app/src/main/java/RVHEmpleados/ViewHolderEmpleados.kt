@@ -10,5 +10,5 @@ class ViewHolderEmpleados(view: View) : RecyclerView.ViewHolder(view) {
     val lbNombre = view.findViewById<TextView>(R.id.lbNombre)
     val lbCorreo = view.findViewById<TextView>(R.id.lbDetalleC)
     val lbTelefono = view.findViewById<TextView>(R.id.lbDetalleT)
-    val lbRol = view.findViewById<TextView>(R.id.lbDetalleT)
+    val lbRol = view.findViewById<TextView>(R.id.lbDetalleR)
 }
