@@ -25,7 +25,7 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvMovimientos"
+        android:id="@+id/rcvEmpleados"
         android:layout_width="match_parent"
         android:layout_height="654dp"
         app:layout_constraintBottom_toBottomOf="parent"

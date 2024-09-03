@@ -1,5 +1,6 @@
 package ptc24.st.sendtrack
 
+import Modelo.dtEmpleados
 import RVHEmpleados.AdaptadorEmpleados
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -25,11 +26,14 @@ class fragment_Empleados : Fragment() {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment__empleados, container, false)
 
-        val recyclerView = root.findViewById<RecyclerView>(R.id.rcvMovimientos)
-        val adapter = AdaptadorEmpleados(requireContext())
-
+        val recyclerView = root.findViewById<RecyclerView>(R.id.rcvEmpleados)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+
+        ///// TODO: Mostrar datos
+        //fun obtenerEmpleados(): List<dtEmpleados>{}
+
+        //recyclerView.layoutManager = LinearLayoutManager(context)
+        //recyclerView.adapter = adapter
 
 
         return root

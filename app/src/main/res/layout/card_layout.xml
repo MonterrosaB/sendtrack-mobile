@@ -53,9 +53,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vehiculo"
+            android:text="Correo"
             android:textColor="#0F2D57"
-            android:id="@+id/lbVehiculo"
+            android:id="@+id/lbCorreo"
             android:textStyle="bold"
             android:layout_toEndOf="@+id/image_car"
             android:layout_toRightOf="@id/image_car"
@@ -68,11 +68,11 @@
             android:layout_height="wrap_content"
             android:text="Detalle"
             android:textColor="#0F2D57"
-            android:id="@+id/lbDetalleV"
+            android:id="@+id/lbDetalleC"
             android:textStyle="bold"
             android:layout_toEndOf="@+id/image_car"
             android:layout_toRightOf="@id/image_car"
-            android:layout_below="@+id/lbVehiculo"
+            android:layout_below="@+id/lbCorreo"
             android:layout_marginStart="10dp"
             android:textSize="10sp"
             />
@@ -83,7 +83,7 @@
             android:orientation="horizontal"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
-            android:layout_below="@+id/lbVehiculo"
+            android:layout_below="@+id/lbCorreo"
             >
 
             <RelativeLayout
@@ -113,11 +113,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Zona"
+            android:text="Telefono"
             android:textColor="#0F2D57"
-            android:id="@+id/lbZona"
+            android:id="@+id/lbTelefono"
             android:textStyle="bold"
-            android:layout_below="@+id/lbDetalleV"
+            android:layout_below="@+id/lbDetalleC"
             android:layout_toEndOf="@+id/image_ubi"
             android:layout_toRightOf="@id/image_ubi"
             android:layout_marginStart="10dp"
@@ -129,11 +129,11 @@
             android:layout_height="wrap_content"
             android:text="Detalle"
             android:textColor="#0F2D57"
-            android:id="@+id/lbDetalleZ"
+            android:id="@+id/lbDetalleT"
             android:textStyle="bold"
             android:layout_toEndOf="@+id/image_ubi"
             android:layout_toRightOf="@id/image_ubi"
-            android:layout_below="@+id/lbZona"
+            android:layout_below="@+id/lbTelefono"
             android:layout_marginStart="10dp"
             android:textSize="10sp"
             />
@@ -144,7 +144,7 @@
             android:orientation="horizontal"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
-            android:layout_below="@+id/lbZona"
+            android:layout_below="@+id/lbTelefono"
             >
 
             <RelativeLayout
@@ -174,11 +174,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hora de entrada y salida"
+            android:text="Rol"
             android:textColor="#0F2D57"
-            android:id="@+id/lbHora"
+            android:id="@+id/lbRol"
             android:textStyle="bold"
-            android:layout_below="@+id/lbDetalleZ"
+            android:layout_below="@+id/lbDetalleT"
             android:layout_toEndOf="@+id/image_hora"
             android:layout_toRightOf="@id/image_hora"
             android:layout_marginStart="10dp"
@@ -190,11 +190,11 @@
             android:layout_height="wrap_content"
             android:text="Detalle"
             android:textColor="#0F2D57"
-            android:id="@+id/lbDetalleH"
+            android:id="@+id/lbDetalleR"
             android:textStyle="bold"
             android:layout_toEndOf="@+id/image_hora"
             android:layout_toRightOf="@id/image_hora"
-            android:layout_below="@+id/lbHora"
+            android:layout_below="@+id/lbRol"
             android:layout_marginStart="10dp"
             android:textSize="10sp"
             />
@@ -205,7 +205,7 @@
             android:orientation="horizontal"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
-            android:layout_below="@+id/lbHora"
+            android:layout_below="@+id/lbRol"
             >
 
             <RelativeLayout
