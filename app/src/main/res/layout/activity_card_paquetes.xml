@@ -21,15 +21,15 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tamaño del paquete"
+            android:text="Información del paquete"
             android:textColor="#0F2D57"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.693"
+            app:layout_constraintHorizontal_bias="0.777"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.065" />
+            app:layout_constraintVertical_bias="0.059" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -37,14 +37,14 @@
             android:layout_height="103dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.107"
+            app:layout_constraintHorizontal_bias="0.061"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="0.212"
             app:srcCompat="@drawable/caja" />
 
         <TextView
-            android:id="@+id/lblPesoPaquete"
+            android:id="@+id/lbSeccionP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-------------"
@@ -67,7 +67,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.167"
+            app:layout_constraintHorizontal_bias="0.108"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.964" />
@@ -76,7 +76,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Peso:"
+            android:text="Sección:"
             android:textColor="@color/blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,18 +90,18 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Altura:"
+            android:text="Cargamento:"
             android:textColor="@color/blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.447"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.504" />
 
         <TextView
-            android:id="@+id/lblAlturaPaquete"
+            android:id="@+id/lblCargamentoP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-------------"
@@ -118,7 +118,7 @@
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ancho:"
+            android:text="Peso:"
             android:textColor="@color/blue"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -129,7 +129,7 @@
             app:layout_constraintVertical_bias="0.717" />
 
         <TextView
-            android:id="@+id/lblAnchoPaquete"
+            android:id="@+id/lbPesoP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-------------"
@@ -142,31 +142,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.709" />
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Largo:"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.94" />
-
-        <TextView
-            android:id="@+id/lblLargoPaquete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-------------"
-            android:textColor="@color/yellow"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.736"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.94" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -56,13 +56,15 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
         btnCalculate = root.findViewById(R.id.btnRuta)
 
         btnCalculate.setOnClickListener {
-            start = ""
-            end = ""
+            start = ""  // Replace with your start coordinates
+            end = ""   // Replace with your end coordinates
+
             poly?.remove()
             poly = null
             Toast.makeText(requireContext(), "Calculando ruta", Toast.LENGTH_SHORT).show()
             if (::map.isInitialized) {
                 map.setOnMapClickListener {
+
                     if (start.isEmpty()) {
                         start = "${it.longitude},${it.latitude}"
                     } else if (end.isEmpty()) {
@@ -84,7 +86,7 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
       map = googleMap
 
-        /*GlobalScope.launch(Dispatchers.Main) {
+       GlobalScope.launch(Dispatchers.Main) {
 
             val limitesSV = LatLngBounds(
                 LatLng(13.0669, -90.1546),
@@ -101,29 +103,20 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
                     map.moveCamera(CameraUpdateFactory.newLatLngBounds(limitesSV, 0))
                 }
             }
-        }*/
+        }
     }
 
     private fun createRoute() {
         CoroutineScope(Dispatchers.IO).launch {
             val callRoute = getRetrofit().create(ApiService::class.java)
-                .getRoute("5b3ce3597851110001cf6248a4650ebb0cc840bba5eb421c0de75307", start, end)
+                .getRoute("5b3ce3597851110001cf6248ff4949cb33284602b692c72b3737e052", start, end)
 
-            val callTime = getRetrofit().create(ApiService::class.java)
-                .getDirections("5b3ce3597851110001cf6248a4650ebb0cc840bba5eb421c0de75307", start, end)
-
-            if (callRoute.isSuccessful && callTime.isExecuted) {
+            if (callRoute.isSuccessful) {
                 drawRoute(callRoute.body())
-               // getTime(callTime)
             } else {
-                Log.i("aris", "no funciona")
-            }
+                Log.e("Error", "Failed to fetch route: ${callRoute.errorBody()?.string()}")            }
 
         }
-    }
-
-    private fun getTime(directionsResponse: DirectionsResponse?) {
-        directionsResponse?.routes?.firstOrNull()?.segments?.firstOrNull()?.duration
     }
 
     private fun drawRoute(routeResponse: RouteResponse?) {

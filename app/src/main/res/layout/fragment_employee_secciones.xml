@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputContenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        android:layout_marginTop="15dp"
+        android:hint="Sección"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:boxCornerRadiusTopStart="45dp"
+        app:boxCornerRadiusTopEnd="45dp"
+        app:boxCornerRadiusBottomStart="45dp"
+        app:boxCornerRadiusBottomEnd="45dp"
+        app:boxBackgroundColor="@color/yellow"
+        android:textColorHint="@color/blue"
+        app:hintTextColor="@color/blue"
+        app:boxStrokeWidth="0dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/cbSeccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/btnIngresarCargamentoS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:backgroundTint="#0F2D57"
+        android:text="Guardar"
+        app:cornerRadius="90px"/>
+</LinearLayout>

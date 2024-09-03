@@ -27,6 +27,7 @@ class Login : AppCompatActivity() {
     companion object variablesGlobalesLogin {
         lateinit var correoIngresado: String
         lateinit var idUser: String
+        lateinit var sucursal : String
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -83,7 +84,7 @@ class Login : AppCompatActivity() {
 
 
                         val rolEmpleado = objConexion?.prepareStatement(
-                            "SELECT E.IdRol, U.IdUsuario FROM Usuario U " +
+                            "SELECT E.IdRol, U.IdUsuario, E.IdSucursal FROM Usuario U " +
                                     "INNER JOIN Empleado E ON U.DUI = E.DUI " +
                                     "WHERE E.Email = ? AND U.Contrasena = ?"
                         )!!
@@ -102,29 +103,30 @@ class Login : AppCompatActivity() {
                             }
                         } else if (resultadoEmpleado.next() == true) {
                             val idRol = resultadoEmpleado.getInt("IdRol")
+                            idUser = resultadoEmpleado.getString("IdUsuario")
+                            sucursal = resultadoEmpleado.getString("IdSucursal")
+                            println("$idUser, $idRol,$sucursal")
+
                             if (idRol == 1) {
                                 val intent = Intent(this@Login, main_admin::class.java)
-                                idUser = resultadoEmpleado.getString("IdUsuario")
                                 startActivity(intent)
                                 withContext(Dispatchers.Main){
                                     txtContrasenaLogin.text = null
-                                    txtContrasenaLogin.text = null
+                                    txtEmailLogin.text = null
                                 }
                             } else if (idRol == 2) {
                                 val intent = Intent(this@Login, main_employeein::class.java)
-                                idUser = resultadoEmpleado.getString("IdUsuario")
                                 startActivity(intent)
                                 withContext(Dispatchers.Main){
                                     txtContrasenaLogin.text = null
-                                    txtContrasenaLogin.text = null
+                                    txtEmailLogin.text = null
                                 }
                             } else if (idRol == 3) {
                                 val intent = Intent(this@Login, main_employee::class.java)
-                                idUser = resultadoEmpleado.getString("IdUsuario")
                                 startActivity(intent)
                                 withContext(Dispatchers.Main){
                                     txtContrasenaLogin.text = null
-                                    txtContrasenaLogin.text = null
+                                    txtEmailLogin.text = null
                                 }
                             }
                         }
