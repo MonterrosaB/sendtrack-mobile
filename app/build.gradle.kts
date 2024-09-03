@@ -65,6 +65,10 @@ dependencies {
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
+
+    implementation ("com.google.firebase:firebase-database:21.0.0")
 
 
 
@@ -90,6 +94,7 @@ dependencies {
     implementation(files("libs\\mail.jar"))
     implementation(libs.androidx.contentpager)
     implementation(libs.play.services.location)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
