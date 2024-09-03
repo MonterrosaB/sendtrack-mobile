@@ -17,63 +17,32 @@
         android:verticalScrollbarPosition="right">
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtConfirmPasswordR"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="310dp"
-            android:layout_height="58dp"
-            android:hint="Confirmar codigo de cargamento"
-            android:isScrollContainer="true"
-            android:scrollbars="horizontal"
-            app:boxCornerRadiusBottomEnd="40dp"
-
-
-            app:boxCornerRadiusBottomStart="40dp"
-            app:boxCornerRadiusTopEnd="40dp"
-            app:boxCornerRadiusTopStart="40dp"
-            app:hintTextColor="?android:attr/textColorPrimaryNoDisable"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.829">
-
-            <EditText
-                android:id="@+id/txtConfirmarCodigo"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="number"
-                android:textColor="@color/blue"
-                android:visibility="visible" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvMovimientos"
-            android:layout_width="407dp"
-            android:layout_height="466dp"
+            android:layout_width="match_parent"
+            android:layout_height="589dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.283" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/btnIngresarCargamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#0F2D57"
+            android:layout_marginBottom="12dp"
 
+            android:backgroundTint="#0F2D57"
             android:text="Ingresar"
             app:cornerRadius="90px"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/rcvMovimientos"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.809"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92" />
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/header"
@@ -101,6 +70,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.022" />
+
+        <EditText
+            android:id="@+id/txtCodigoCargamento"
+            android:layout_width="188dp"
+            android:layout_height="39dp"
+            android:ems="10"
+            android:hint="Cargamento "
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnIngresarCargamento"
+            app:layout_constraintHorizontal_bias="0.676"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.131" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

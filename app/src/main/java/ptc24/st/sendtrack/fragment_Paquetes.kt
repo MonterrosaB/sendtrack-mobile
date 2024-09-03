@@ -1,6 +1,7 @@
 package ptc24.st.sendtrack
 
 import Modelo.ClaseConexion
+import Modelo.dtMovimientos
 import Modelo.dtPaquetes
 import RVHPaquetes.adaptadorPaquetes
 import android.os.Bundle
@@ -17,26 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_Paquetes.newInstance] factory method to
- * create an instance of this fragment.
- */
 class fragment_Paquetes : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -51,27 +37,35 @@ class fragment_Paquetes : Fragment() {
         rcvPaquetes.layoutManager = LinearLayoutManager(requireContext())
 
         fun mostrarPaquetes(): List<dtPaquetes>{
+
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("select * from Paquete")!!
+            val statement = objConexion?.prepareStatement("Select P.IdPaquete, P.Peso ,RC.IdCargamento , S.Nombre from RegistroCargamento RC " +
+                    "INNER JOIN CentroRecoleccion CR on CR.IdPaquete = RC.IdPaquete " +
+                    "INNER JOIN Almacen A ON a.idpaquete = rc.idpaquete " +
+                    "INNER JOIN Seccion S ON s.idseccion = a.idseccion " +
+                    "INNER JOIN Paquete P ON P.IdPaquete = CR.IdPaquete " +
+                    "where IdCargamento in " +
+                    "(select IdCargamento from Almacen A " +
+                    "INNER JOIN RegistroCargamento RC ON A.IdPaquete = RC.IdPaquete " +
+                    "group by RC.IdCargamento) " +
+                    "and s.idsucursal = ? and  TRUNC(A.Fecha) = TRUNC(SYSDATE) ORDER BY IDCargamento ASC ")!!
+
+            statement.setString(1, Login.sucursal)
 
             val resultSet = statement.executeQuery()
 
-            val dtPaquetes = mutableListOf<dtPaquetes>()
+            val paquetes = mutableListOf<dtPaquetes>()
 
             while (resultSet.next()){
-                val idPaquete = resultSet.getString("idPaquete")
-                val peso = resultSet.getString("peso")
-                val altura = resultSet.getString("Alto")
-                val ancho = resultSet.getString("ancho")
-                val largo = resultSet.getString("largo")
-
-                val paquete = dtPaquetes(idPaquete, peso, altura, ancho, largo)
-
-                dtPaquetes.add(paquete)
-
+                val idPaquete = resultSet.getString("IdPaquete")
+                val seccion = resultSet.getString("Nombre")
+                val cargamento = resultSet.getString("IdCargamento")
+                val peso = resultSet.getString("Peso")
+                val paquete = dtPaquetes(idPaquete, seccion, cargamento, peso)
+                paquetes.add(paquete)
             }
-            return dtPaquetes
+            return paquetes
         }
 
         CoroutineScope(Dispatchers.IO).launch {

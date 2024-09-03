@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.utils.loadPropertyFromResources
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -22,6 +26,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        val inputStream = FileInputStream("local.properties")
+        properties.load(inputStream)
+
+        buildConfigField("String","MY_API","\"${properties.getProperty("API_KEY")}\"")
     }
 
     buildTypes {
@@ -42,6 +52,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -55,9 +66,7 @@ dependencies {
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
 
-    implementation (libs.androidx.core.ktx)
-    implementation (libs.androidx.appcompat)
-    implementation (libs.material)
+
 
     //Oracle
     implementation ("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
@@ -67,7 +76,9 @@ dependencies {
     //QR
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 
-
+    implementation (libs.androidx.core.ktx)
+    implementation (libs.androidx.appcompat)
+    implementation (libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -78,8 +89,10 @@ dependencies {
     implementation(files("libs\\additionnal.jar"))
     implementation(files("libs\\mail.jar"))
     implementation(libs.androidx.contentpager)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
     implementation("com.google.android.material:material:1.13.0-alpha03")
 }

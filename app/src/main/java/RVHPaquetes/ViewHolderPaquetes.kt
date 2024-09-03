@@ -7,8 +7,7 @@ import ptc24.st.sendtrack.R
 
 class ViewHolderPaquetes(view: View): RecyclerView.ViewHolder(view) {
     val lblIdPaquete = view.findViewById<TextView>(R.id.lblIdPaquete)
-    val lblPesoPaquete = view.findViewById<TextView>(R.id.lblPesoPaquete)
-    val lblAlturaPaquete = view.findViewById<TextView>(R.id.lblAlturaPaquete)
-    val lblAnchoPaquete = view.findViewById<TextView>(R.id.lblAnchoPaquete)
-    val lblLargoPaquete = view.findViewById<TextView>(R.id.lblLargoPaquete)
+    val lbSeccion = view.findViewById<TextView>(R.id.lbSeccionP)
+    val lbCargamento = view.findViewById<TextView>(R.id.lblCargamentoP)
+    val lbPeso = view.findViewById<TextView>(R.id.lbPesoP)
 }
