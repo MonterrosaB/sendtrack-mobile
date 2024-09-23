@@ -30,8 +30,8 @@ class fragment_Empleados : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment__empleados, container, false)
-        val recyclerView = root.findViewById<RecyclerView>(R.id.rcvEmpleados)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        val rcvEmpleados = root.findViewById<RecyclerView>(R.id.rcvEmpleados)
+        rcvEmpleados.layoutManager = LinearLayoutManager(context)
 
         ///// TODO: Mostrar datos
         fun obtenerEmpleados(): List<dtEmpleados>{
@@ -39,13 +39,13 @@ class fragment_Empleados : Fragment() {
             val objConexion = ClaseConexion().cadenaConexion()
 
             val cargar = objConexion?.prepareStatement("Select E.DUI, E.Nombre, E.apellidopaterno, E.apellidomaterno, E.email, " +
-                    "E.telefono , E.salario, E.fechana, Rol.NomRol,Sucursal.Nombre as Sucursal, E.masculino, " +
+                    "E.telefono , E.salario, E.fechana, Rol.NomRol,Sucursal.Nombre as Sucursal, E.Sexo, " +
                     "E.estado, rol.idrol, sucursal.idsucursal " +
                     "from empleado E " +
                     "inner join Rol on E.IdRol = Rol.idRol " +
                     "inner join Sucursal on E.idSucursal = sucursal.idsucursal " +
                     "where Sucursal.idsucursal = ? ")!!
-            cargar.setInt(1, Login.variablesGlobalesLogin.sucursal.toInt())
+            cargar.setInt(1, Login.sucursal.toInt())
             val resultSet = cargar.executeQuery()
 
             val listaEmpleados = mutableListOf<dtEmpleados>()
@@ -64,7 +64,7 @@ class fragment_Empleados : Fragment() {
                 val idRol = resultSet.getInt("IdRol")
                 val Sucursal = resultSet.getString("Sucursal")
                 val idSucursal = resultSet.getInt("IdSucursal")
-                val Masculino = resultSet.getInt("Masculino")
+                val Masculino = resultSet.getInt("Sexo")
                 val Estado = resultSet.getInt("Estado")
 
 
@@ -81,14 +81,12 @@ class fragment_Empleados : Fragment() {
             withContext(Dispatchers.Main)
             {
                 val adapter = AdaptadorEmpleados(EmpleadosDB)
-                recyclerView.adapter = adapter
+                rcvEmpleados.adapter = adapter
             }
         }
 
         //recyclerView.layoutManager = LinearLayoutManager(context)
         //recyclerView.adapter = adapter
-
-
         return root
     }
 }

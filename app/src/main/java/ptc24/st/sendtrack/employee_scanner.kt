@@ -1,5 +1,10 @@
 package ptc24.st.sendtrack
 
+import Modelo.ClaseConexion
+import Modelo.dtPaqRepartidor
+import Modelo.dtPaqueteEntregar
+import RVHEmpleados.AdaptadorEmpleados
+import RVHScanner.AdaptadorScanner
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +14,7 @@ import android.util.Log
 import android.util.Size
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.annotation.OptIn
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
@@ -18,11 +24,17 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ptc24.st.sendtrack.paquetesRepartidor.variableGlobalRepartidor.ruta
 
 class employee_scanner : Fragment() {
 
@@ -33,6 +45,11 @@ class employee_scanner : Fragment() {
     private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var previewView: PreviewView
 
+    private lateinit var codigoEscaneado: String
+    private lateinit var codigoDB: String
+
+    var codigos: List<String>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +57,40 @@ class employee_scanner : Fragment() {
 
         }
     }
+
+    fun mostrarPaquetes(): List<dtPaqRepartidor>{
+
+        val objConexion = ClaseConexion().cadenaConexion()
+
+        val statement = objConexion?.prepareStatement("Select P.IdPaquete, Peso, Alto, Ancho, Largo, Distrito " +
+                "from Paquete P " +
+                "INNER JOIN Distrito D ON D.IdDistrito = P.Origen " +
+                "where IdPaquete in " +
+                "(select IdPaquete from RegistroContenedor RC " +
+                "INNER JOIN Contenedor C ON C.IdContenedor = RC.IdContenedor " +
+                "WHERE C.IdRuta = ?) ")!!
+
+        statement.setString(1, ruta)
+
+        val resultSet = statement.executeQuery()
+
+        val dtPaqRepartidor = mutableListOf<dtPaqRepartidor>()
+
+
+        while (resultSet.next()){
+            val Origen = resultSet.getString("Distrito")
+            val idPaquete = resultSet.getString("idPaquete")
+            val peso = resultSet.getString("peso")
+            val altura = resultSet.getString("Alto")
+            val ancho = resultSet.getString("ancho")
+            val largo = resultSet.getString("largo")
+            val paquete = dtPaqRepartidor(Origen ,idPaquete, peso, altura, ancho, largo)
+
+            dtPaqRepartidor.add(paquete)
+        }
+        return dtPaqRepartidor
+    }
+
 
 
 
@@ -53,15 +104,55 @@ class employee_scanner : Fragment() {
         val root =  inflater.inflate(R.layout.fragment_employee_scanner, container, false)
 
 
-        //1-Llamo al boton y a la vista previa
-        val btnEscanear = root.findViewById<Button>(R.id.btnScanear)
+        //1-Llamo a los elementos
         previewView = root.findViewById(R.id.previewView)
+        val rcvPaqueteEntregar = root.findViewById<RecyclerView>(R.id.rcvPaquetesScanner)
 
-        btnEscanear.setOnClickListener {
+        startCamera()
 
-                startCamera()
+        codigos = listOf("1002")
 
+
+
+        fun mostrarPaquete(): List<dtPaqueteEntregar>{
+
+            val objConexion = ClaseConexion().cadenaConexion()
+
+            val statement = objConexion?.prepareStatement("Select P.IdPaquete, D.Direccion, D.Instruccion " +
+                    "from Paquete P " +
+                    "INNER JOIN Direccion D ON D.IdDireccion = P.IdDireccion " +
+                    "where IdPaquete in " +
+                    "(select IdPaquete from RegistroContenedor RC " +
+                    "INNER JOIN Contenedor C ON C.IdContenedor = RC.IdContenedor " +
+                    "WHERE C.IdRuta = ?)")!!
+
+            statement.setString(1, ruta)
+
+            val resultSet = statement.executeQuery()
+
+            val dtPaqueteEntregar = mutableListOf<dtPaqueteEntregar>()
+
+
+            while (resultSet.next()){
+                val idPaquete = resultSet.getString("IdPaquete")
+                val direccion = resultSet.getString("Direccion")
+                val instruccion = resultSet.getString("Instruccion")
+                val paquete = dtPaqueteEntregar(idPaquete ,direccion, instruccion)
+
+                dtPaqueteEntregar.add(paquete)
+            }
+            return dtPaqueteEntregar
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val PaquetesDB = mostrarPaquete()
+            withContext(Dispatchers.Main)
+            {
+                val adapter = AdaptadorScanner(PaquetesDB)
+                rcvPaqueteEntregar.adapter = adapter
+            }
+        }
+
 
 
         return root
@@ -87,9 +178,10 @@ class employee_scanner : Fragment() {
                 .build()
                 .also { analysisUseCase ->
                     analysisUseCase.setAnalyzer(
+
                         ContextCompat.getMainExecutor(requireContext()),
                         { imageProxy ->
-                            processImageProxy(imageProxy)
+                            codigos?.let { processImageProxy(imageProxy, it) }
                         }
                     )
                 }
@@ -115,7 +207,7 @@ class employee_scanner : Fragment() {
 
     //4- Metodo para leer lo del código QR
     @OptIn(ExperimentalGetImage::class)
-    private fun processImageProxy(imageProxy: ImageProxy) {
+    private fun processImageProxy(imageProxy: ImageProxy, validQRCodes: List<String>) {
         val mediaImage = imageProxy.image
         if (mediaImage != null) {
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
@@ -131,13 +223,22 @@ class employee_scanner : Fragment() {
                         for (barcode in barcodes) {
                             val rawValue = barcode.rawValue
                             println("El código QR escaneado es: $rawValue")
-                            Toast.makeText(
-                                requireActivity(),  // Or use `activity!!` if you are certain the activity is not null
-                                "El código QR escaneado es: $rawValue",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            // Manejar el código QR escaneado
-                            // Puede actualizar la UI o iniciar alguna acción aquí
+
+                            // Verificar si el código escaneado está en la lista de códigos válidos
+                            if (rawValue != null && validQRCodes.contains(rawValue)) {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Código QR válido: $rawValue",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                // Aquí puedes manejar la acción si el código es válido
+                            } else {
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Código QR no válido: $rawValue",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
@@ -149,6 +250,8 @@ class employee_scanner : Fragment() {
                 }
         }
     }
+
+
     //5- Comprobar que todos los permisos estén aceptados
     /*private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED

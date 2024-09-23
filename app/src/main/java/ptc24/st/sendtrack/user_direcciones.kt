@@ -207,7 +207,7 @@ private lateinit var map: GoogleMap
                                 " (IdCliente, IdDistrito, NombreCompleto,Direccion, Instruccion,Ubicacion)" +
                                 " VALUES (?, ?, ?, ?, ?, SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(?, ?, NULL), NULL, NULL))")!!
 
-                        insertDireccion.setString(1, Login.variablesGlobalesLogin.idUser)
+                        insertDireccion.setString(1, Login.idUser)
                         insertDireccion.setString(2, distrito)
                         insertDireccion.setString(3, nombre)
                         insertDireccion.setString(4,calle )
@@ -235,11 +235,9 @@ private lateinit var map: GoogleMap
             val listaMunicipio = getMunicipio()
             cbDistrito.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    TODO("Not yet implemented")
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    TODO("Not yet implemented")
                 }
 
             }

@@ -17,26 +17,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [paquetesRepartidor.newInstance] factory method to
- * create an instance of this fragment.
- */
 class paquetesRepartidor : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    companion object variableGlobalRepartidor {
+        var ruta: String = ""
+    }
+
+    var obtenerRuta: String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -46,16 +38,28 @@ class paquetesRepartidor : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val root =  inflater.inflate(R.layout.fragment_paquetes_repartidor, container, false)
-
         val rcvPaqueteRepartidor = root.findViewById<RecyclerView>(R.id.rcvPaquetesRepartidor)
         rcvPaqueteRepartidor.layoutManager = LinearLayoutManager(requireContext())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            obtenerRuta = obetenerIdRuta().toString()
+        }
+
+
 
         fun mostrarPaquetes(): List<dtPaqRepartidor>{
 
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("SELECT IdPaquete, Peso, Alto, Ancho, Largo, Distrito FROM PAQUETE " +
-                    "INNER JOIN DISTRITO ON Paquete.Origen = Distrito.IdDistrito")!!
+            val statement = objConexion?.prepareStatement("Select P.IdPaquete, Peso, Alto, Ancho, Largo, Distrito " +
+                    "from Paquete P " +
+                    "INNER JOIN Distrito D ON D.IdDistrito = P.Origen " +
+                    "where IdPaquete in " +
+                    "(select IdPaquete from RegistroContenedor RC " +
+                    "INNER JOIN Contenedor C ON C.IdContenedor = RC.IdContenedor " +
+                    "WHERE C.IdRuta = ?) ")!!
+
+            statement.setString(1, ruta)
 
             val resultSet = statement.executeQuery()
 
@@ -76,34 +80,37 @@ class paquetesRepartidor : Fragment() {
             return dtPaqRepartidor
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val repartidorDB = mostrarPaquetes()
-            withContext(Dispatchers.Main){
-                val adapter = AdaptadorPaqRepartidor(repartidorDB)
-                rcvPaqueteRepartidor.adapter = adapter
-            }
-        }
 
+        if(!obtenerRuta.isNullOrEmpty()){
+            ruta = obtenerRuta
+
+           CoroutineScope(Dispatchers.IO).launch {
+               val repartidorDB = mostrarPaquetes()
+               withContext(Dispatchers.Main){
+                   val adapter = AdaptadorPaqRepartidor(repartidorDB)
+                   rcvPaqueteRepartidor.adapter = adapter
+               }
+           }
+       }
         return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment paquetesRepartidor.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            paquetesRepartidor().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+  private fun obetenerIdRuta(): String? {
+
+        var rutaId: String? = null
+
+        val objConexion = ClaseConexion().cadenaConexion()
+
+        val statement = objConexion?.prepareStatement("SELECT IdRuta FROM Ruta " +
+                "WHERE Finalizado = 0 AND IdUsuario = ? AND ROWNUM = 1 ORDER BY IdRuta DESC")!!
+
+        statement.setString(1, Login.idUser)
+
+        val resultSet = statement.executeQuery()
+
+        while (resultSet.next()){
+            rutaId = resultSet.getString("IdRuta")
+        }
+        return rutaId
     }
 }

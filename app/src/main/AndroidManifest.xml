@@ -2,26 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
         tools:ignore="SelectedPhotoAccess" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
-
-    
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -33,24 +31,25 @@
         android:theme="@style/Theme.SendTrack"
         tools:targetApi="31">
         <activity
+            android:name=".card_paquetes_scanner"
+            android:exported="false" />
+        <activity
             android:name=".splashScreen"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".rastrearPaquetes"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".main_employeein"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".cambioContrasena"
             android:exported="false" />
@@ -59,17 +58,18 @@
             android:exported="false" />
         <activity
             android:name=".Registro"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".olvidasteContrasena"
             android:exported="false" />
         <activity
             android:name=".Login"
-            android:exported="false"/>
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".item_direccion"
             android:exported="false" />
@@ -78,12 +78,12 @@
             android:exported="false" />
         <activity
             android:name=".main_employee"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".main_admin"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".cardPaquetes"
             android:exported="false" />
@@ -93,9 +93,8 @@
         <activity
             android:name=".main_user"
             android:exported="false"
-            android:windowSoftInputMode="adjustNothing"
-            android:label="@string/app_name"/>
-
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
