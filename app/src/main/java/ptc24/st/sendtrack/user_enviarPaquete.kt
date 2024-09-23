@@ -75,6 +75,10 @@ private val binding get() = _binding!!
         val root = binding.root
 
         //Elementos
+        val txtAlto = root.findViewById<EditText>(R.id.txtEditAlto)
+        val txtAncho = root.findViewById<EditText>(R.id.txtEditAncho)
+        val txtLargo = root.findViewById<EditText>(R.id.txtEditLargo)
+        val txtPeso = root.findViewById<EditText>(R.id.txtEditPeso)
         val spnSeguro = binding.cbSeguro
         val spnOrigen = binding.cbOrigen
         var contenido: Int
@@ -249,7 +253,7 @@ private val binding get() = _binding!!
                }
            }
 
-           /*try {
+           try {
 
                val pesoP = binding.txtEditPeso.text.toString()
                val altoP = binding.txtEditAlto.text.toString()
@@ -316,7 +320,7 @@ private val binding get() = _binding!!
 
 
 
-                   if (hayErrores == false && AdaptadorDireccion.variableDireccion.idDireccion.isNotEmpty()){
+                   if (hayErrores == false && AdaptadorDireccion.idDireccion.isNotEmpty()){
                        CoroutineScope(Dispatchers.IO).launch {
                            val objConexion = ClaseConexion().cadenaConexion()
 
@@ -352,7 +356,7 @@ private val binding get() = _binding!!
 
            }catch (e: Exception){
                println(e)
-           }*/
+           }
        }
 
         return root
