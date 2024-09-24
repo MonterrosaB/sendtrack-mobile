@@ -67,13 +67,13 @@ class paquetesRepartidor : Fragment() {
 
 
             while (resultSet.next()){
-                val Origen = resultSet.getString("Distrito")
+                val origen = resultSet.getString("Distrito")
                 val idPaquete = resultSet.getString("idPaquete")
                 val peso = resultSet.getString("peso")
                 val altura = resultSet.getString("Alto")
                 val ancho = resultSet.getString("ancho")
                 val largo = resultSet.getString("largo")
-                val paquete = dtPaqRepartidor(Origen ,idPaquete, peso, altura, ancho, largo)
+                val paquete = dtPaqRepartidor(origen ,idPaquete, peso, altura, ancho, largo)
 
                 dtPaqRepartidor.add(paquete)
             }
@@ -104,7 +104,7 @@ class paquetesRepartidor : Fragment() {
         val statement = objConexion?.prepareStatement("SELECT IdRuta FROM Ruta " +
                 "WHERE Finalizado = 0 AND IdUsuario = ? AND ROWNUM = 1 ORDER BY IdRuta DESC")!!
 
-        statement.setString(1, Login.idUser)
+        statement.setString(1, Login.licencia)
 
         val resultSet = statement.executeQuery()
 

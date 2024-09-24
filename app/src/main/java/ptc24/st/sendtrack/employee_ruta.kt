@@ -1,5 +1,9 @@
 package ptc24.st.sendtrack
 
+import Modelo.ClaseConexion
+import RVHScanner.AdaptadorScanner
+import android.health.connect.datatypes.ExerciseRoute
+import android.location.Location
 import android.os.Bundle
 import android.telecom.Call
 import android.util.Log
@@ -10,6 +14,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.Response
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,6 +28,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ptc24.st.sendtrack.paquetesRepartidor.variableGlobalRepartidor.ruta
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -30,6 +38,8 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var btnCalculate: Button
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     private var start = ""
     private var end = ""
@@ -50,7 +60,21 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_employee_ruta, container, false)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+
+
+
+
         CreateFragment()
+
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val (lat, lang) = getLocationPackage()
+
+            println("latitud: $lat, Longitud: $lang")
+        }
 
 
         btnCalculate = root.findViewById(R.id.btnRuta)
@@ -75,6 +99,34 @@ class employee_ruta : Fragment(), OnMapReadyCallback {
             }
         }
         return root
+    }
+
+    private fun getLocationPackage(): Pair<String?, String?> {
+
+        var lat: String? = null
+        var lon: String? = null
+
+        val objConexion = ClaseConexion().cadenaConexion()
+
+        val statement = objConexion?.prepareStatement("Select P.IdPaquete, " +
+                "D.Ubicacion.SDO_POINT.X AS lon, " +
+                "D.Ubicacion.SDO_POINT.Y AS lat " +
+                "from Paquete P " +
+                "INNER JOIN Direccion D ON D.IdDireccion = P.IdDireccion " +
+                "where IdPaquete in (SELECT RC.IdPaquete FROM RegistroContenedor RC " +
+                "    INNER JOIN Contenedor C ON C.IdContenedor = RC.IdContenedor " +
+                "    WHERE C.IdRuta = ? ORDER BY RC.IndexEntrega ASC " +
+                "    FETCH FIRST 1 ROWS ONLY) ")!!
+
+        statement.setString(1, ruta)
+
+        val resultSet = statement.executeQuery()
+
+        while (resultSet.next()){
+            lat = resultSet.getString("Lat")
+            lon = resultSet.getString("Lon")
+        }
+        return Pair(lat, lon)
     }
 
 

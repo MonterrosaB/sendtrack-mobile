@@ -28,6 +28,8 @@ class Login : AppCompatActivity() {
         lateinit var correoIngresado: String
         lateinit var idUser: String
         lateinit var sucursal : String
+        lateinit var licencia : String
+
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -83,9 +85,9 @@ class Login : AppCompatActivity() {
                         val resultadoCliente = rolCliente.executeQuery()
 
 
-                        val rolEmpleado = objConexion?.prepareStatement(
-                            "SELECT E.IdRol, U.IdUsuario, E.IdSucursal FROM Usuario U " +
+                        val rolEmpleado = objConexion?.prepareStatement("SELECT E.IdRol, U.IdUsuario, E.IdSucursal, R.Licencia FROM Usuario U " +
                                     "INNER JOIN Empleado E ON U.DUI = E.DUI " +
+                                    "LEFT JOIN Repartidor R ON R.DUI = E.Dui " +
                                     "WHERE E.Email = ? AND U.Contrasena = ?"
                         )!!
                         rolEmpleado.setString(1, correoIngresado)
@@ -123,6 +125,9 @@ class Login : AppCompatActivity() {
                                 }
                             } else if (idRol == 3) {
                                 val intent = Intent(this@Login, main_employee::class.java)
+
+                                licencia = resultadoEmpleado.getString("Licencia")
+
                                 startActivity(intent)
                                 withContext(Dispatchers.Main){
                                     txtContrasenaLogin.text = null

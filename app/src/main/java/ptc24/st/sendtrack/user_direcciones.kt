@@ -101,11 +101,9 @@ private lateinit var map: GoogleMap
 
             val objConexion = ClaseConexion().cadenaConexion()
 
-            val statement = objConexion?.prepareStatement("SELECT * FROM Distrito where IdMunicipio = ?")!!
+            val statement = objConexion?.createStatement()
 
-            statement.setString(1,"2")
-
-            val resultSet = statement.executeQuery()
+            val resultSet = statement?.executeQuery("SELECT * FROM Distrito order by Distrito asc")!!
 
             val listadoDistritos = mutableListOf<dtDistrito>()
 
@@ -134,8 +132,8 @@ private lateinit var map: GoogleMap
             CoroutineScope(Dispatchers.IO).launch {
 
                 val calle = binding.txtEditCalle.text.toString()
-                val distrito = getDistrito()[cbDistrito.selectedItemPosition].distrito
                 val municipio = getMunicipio()[cbMunicipio.selectedItemPosition].municipio
+                val distrito = getDistrito()[cbDistrito.selectedItemPosition].distrito
 
                 withContext(Dispatchers.Main){
                     addressGeocoder(calle,distrito, municipio)
@@ -217,30 +215,21 @@ private lateinit var map: GoogleMap
 
                         insertDireccion.executeUpdate()
 
-                        binding.txtEditNombre.text = null
-                        binding.txtEditCalle.text = null
-                        binding.txtEditInstrucciones.text = null
 
+                        withContext(Dispatchers.Main){
+                            binding.txtEditNombre.text = null
+                            binding.txtEditCalle.text = null
+                            binding.txtEditInstrucciones.text = null
+                        }
                     }
                 }catch (e: Exception){
                     println("Error: $e")
                 }
             }
-
-
-
         }
 
         GlobalScope.launch(Dispatchers.IO) {
             val listaMunicipio = getMunicipio()
-            cbDistrito.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
-
-            }
             val listaDistrito = getDistrito()
 
             val municipio = listaMunicipio.map { it.municipio }
@@ -329,7 +318,10 @@ private lateinit var map: GoogleMap
     }
 
     override fun onMarkerDragEnd(googleMap: Marker) {
-        Log.d(TAG, "onMarkerDrag: ")
+        latitud = googleMap.position.latitude
+        longitud = googleMap.position.longitude
+
+        Log.d("MarkerDrag", "Nueva posición: Lat = $latitud, Lng = $longitud")
 
     }
 

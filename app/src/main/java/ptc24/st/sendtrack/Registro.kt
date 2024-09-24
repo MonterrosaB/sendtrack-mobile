@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ptc24.st.sendtrack.databinding.ActivityRegistroBinding
 
 class Registro : AppCompatActivity() {
@@ -154,13 +155,14 @@ class Registro : AppCompatActivity() {
                             addUser.setString(5, contraEncript)
                             addUser.executeUpdate()
 
-                            binding.txtNombreR.text = null
-                            binding.txtTelefonoR.text = null
-                            binding.txtEmailR.text = null
-                            binding.txtUsuarioR.text = null
-                            binding.txtPasswordR.text = null
-                            binding.txtConfirmPasswordR.text = null
-
+                            withContext(Dispatchers.Main){
+                                binding.txtNombreR.text = null
+                                binding.txtTelefonoR.text = null
+                                binding.txtEmailR.text = null
+                                binding.txtUsuarioR.text = null
+                                binding.txtPasswordR.text = null
+                                binding.txtConfirmPasswordR.text = null
+                            }
                         }
                         AlertDialog.Builder(this)
                             .setTitle("Registro completado")

@@ -5,11 +5,14 @@ import Modelo.dtPaqRepartidor
 import Modelo.dtPaqueteEntregar
 import RVHEmpleados.AdaptadorEmpleados
 import RVHScanner.AdaptadorScanner
+import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
 import android.widget.Button
@@ -23,6 +26,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.mlkit.vision.barcode.Barcode
@@ -38,15 +42,13 @@ import ptc24.st.sendtrack.paquetesRepartidor.variableGlobalRepartidor.ruta
 
 class employee_scanner : Fragment() {
 
-    val codigo_opcion_galeria = 102
     val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
 
-    private lateinit var cameraProvider: ProcessCameraProvider
     private lateinit var previewView: PreviewView
 
-    private lateinit var codigoEscaneado: String
-    private lateinit var codigoDB: String
+
+    private lateinit var btnEntrgar: Button
 
     var codigos: List<String>? = null
 
@@ -103,15 +105,17 @@ class employee_scanner : Fragment() {
         // Inflate the layout for this fragment
         val root =  inflater.inflate(R.layout.fragment_employee_scanner, container, false)
 
-
         //1-Llamo a los elementos
         previewView = root.findViewById(R.id.previewView)
         val rcvPaqueteEntregar = root.findViewById<RecyclerView>(R.id.rcvPaquetesScanner)
+        btnEntrgar = root.findViewById(R.id.btnEntregar)
 
-        startCamera()
+        btnEntrgar.setOnClickListener {
+            checkStoragePermission()
+        }
+
 
         codigos = listOf("1002")
-
 
 
         fun mostrarPaquete(): List<dtPaqueteEntregar>{
@@ -153,9 +157,61 @@ class employee_scanner : Fragment() {
             }
         }
 
-
+        startCamera()
 
         return root
+    }
+
+    private fun checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            //El permiso no está aceptado, entonces se lo pedimos
+            pedirPermisoCamara()
+        } else {
+            //El permiso ya está aceptado
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, codigo_opcion_tomar_foto)
+        }    }
+
+    private fun pedirPermisoCamara() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                android.Manifest.permission.CAMERA
+            )
+        ) {
+            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
+        } else {
+            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE
+            )
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    //El permiso está aceptado, entonces Abrimos la camara:
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, codigo_opcion_tomar_foto)
+                } else {
+                    //El usuario ha rechazado el permiso, podemos desactivar la funcionalidad o mostrar una alerta/Toast.
+                    Toast.makeText(requireContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+            else -> {
+                // Este else lo dejamos por si sale un permiso que no teníamos controlado.
+            }
+        }
     }
 
     private fun startCamera() {
@@ -226,12 +282,8 @@ class employee_scanner : Fragment() {
 
                             // Verificar si el código escaneado está en la lista de códigos válidos
                             if (rawValue != null && validQRCodes.contains(rawValue)) {
-                                Toast.makeText(
-                                    requireActivity(),
-                                    "Código QR válido: $rawValue",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                // Aquí puedes manejar la acción si el código es válido
+                                btnEntrgar.setEnabled(true);
+                            //Asigna valor true.
                             } else {
                                 Toast.makeText(
                                     requireActivity(),
@@ -250,33 +302,6 @@ class employee_scanner : Fragment() {
                 }
         }
     }
-
-
-    //5- Comprobar que todos los permisos estén aceptados
-    /*private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-    }
-
-    //Esta función creo que no afecta en nada (es del repositorio anterior de subir imagenes)
-    private fun pedirPermisoCamara() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireContext(),
-                android.Manifest.permission.CAMERA
-            )
-        ) {
-            //El usuario ya ha rechazado el permiso anteriormente, debemos informarle que vaya a ajustes.
-        } else {
-            //El usuario nunca ha aceptado ni rechazado, así que le pedimos que acepte el permiso.
-            ActivityCompat.requestPermissions(
-                this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_REQUEST_CODE
-            )
-        }
-    }*/
 
 
 }

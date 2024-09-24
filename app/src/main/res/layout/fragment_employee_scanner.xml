@@ -48,18 +48,21 @@
             android:id="@+id/rcvPaquetesScanner"
             android:layout_width="match_parent"
             android:layout_height="210dp"
+            android:background="#C8C8C8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.883" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnEntregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="4dp"
-            android:text="Hola Mundo"
+            android:text="Entregar"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
